@@ -1,0 +1,702 @@
+These locales are taken from https://github.com/citation-style-language/locales
+The licenses of the individual locales are licenses as follows: 
+
+bg-BG
+<info>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2018-02-15T04:14:02+00:00</updated>
+	<translator>
+		<name>Valeriya Simeonova</name>
+		<email>simeonova@fmi.uni-sofia.bg</email>
+		<uri>http://www.mendeley.com/profiles/valeriya-simeonova/</uri>
+	</translator>
+</info>
+
+---
+
+is-IS
+<info>
+	<translator>
+		<name>dadamaster</name>
+	</translator>
+	<translator>
+		<name>styrmirm</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+en-GB
+<info>
+	<translator>
+		<name>Andrew Dunning</name>
+	</translator>
+	<translator>
+		<name>Sebastian Karcher</name>
+	</translator>
+	<translator>
+		<name>Rintze M. Zelle</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2015-10-10T23:31:02+00:00</updated>
+</info>
+
+---
+
+ca-AD
+<info>
+	<translator>
+		<name>anidal</name>
+	</translator>
+	<translator>
+		<name>javimat</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+pl-PL
+<info>
+	<translator>
+		<name>pAo</name>
+	</translator>
+	<translator>
+		<name>Michal</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+uk-UA
+<info>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2018-09-17T21:00:00+02:00</updated>
+</info>
+
+---
+
+pt-PT
+<info>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2013-09-20T23:31:02+00:00</updated>
+	<translator>
+		<name>Jonadabe PT</name>
+	</translator>
+</info>
+
+---
+
+nl-NL
+<info>
+	<translator>
+		<name>Rintze M. Zelle</name>
+		<uri>http://twitter.com/rintzezelle</uri>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2017-04-01T12:00:00+00:00</updated>
+</info>
+
+---
+
+zh-CN
+<info>
+	<translator>
+		<name>rongls</name>
+	</translator>
+	<translator>
+		<name>sati-bodhi</name>
+	</translator>
+	<translator>
+		<name>Heromyth</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2014-05-15T23:31:02+00:00</updated>
+</info>
+
+---
+
+de-CH
+<info>
+	<translator>
+		<name>Till A. Heilmann</name>
+	</translator>
+	<translator>
+		<name>Sylvester Keil</name>
+	</translator>
+	<translator>
+		<name>jakov</name>
+	</translator>
+	<translator>
+		<name>Sebastian Karcher</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+es-MX
+<info>
+	<translator>
+		<name>Juan Ignacio Flores Salgado</name>
+		<uri>https://www.mendeley.com/profiles/juan-ignacio-flores-salgado/</uri>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2015-06-13T13:57:31-04:00</updated>
+</info>
+
+---
+
+sr-RS
+<info>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+pt-BR
+<info>
+	<translator>
+		<name>José Antonio Meira da Rocha</name>
+	</translator>
+	<translator>
+		<name>Meira da Rocha</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2016-05-16T00:00:00+03:00</updated>
+</info>
+
+---
+
+he-IL
+<info>
+	<translator>
+		<name>roypeled1</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+ro-RO
+<info>
+	<translator>
+		<name>Nicolae Turcan</name>
+		<email>nturcan@gmail.com</email>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+lt-LT
+<info>
+	<translator>
+		<name>Valdemaras Klumbys</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2017-01-18T10:31:02+00:00</updated>
+</info>
+
+---
+
+ko-KR
+<info>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+th-TH
+<info>
+	<translator>
+		<name>Dusit Laohasinnarong</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+hu-HU
+<info>
+	<translator>
+		<name>Miklos Vajna</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2014-06-17T09:56:35+02:00</updated>
+</info>
+
+---
+
+fi-FI
+<info>
+	<translator>
+		<name>Janne Huovari</name>
+	</translator>
+	<translator>
+		<name>snissine</name>
+	</translator>
+	<translator>
+		<name>villelahtinen</name>
+	</translator>
+	<translator>
+		<name>Juhana Venäläinen</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+it-IT
+<info>
+	<translator>
+		<name>FI App Development</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+en-US
+<info>
+	<translator>
+		<name>Andrew Dunning</name>
+	</translator>
+	<translator>
+		<name>Sebastian Karcher</name>
+	</translator>
+	<translator>
+		<name>Rintze M. Zelle</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2015-10-10T23:31:02+00:00</updated>
+</info>
+
+---
+
+es-ES
+<info>
+	<translator>
+		<name>javimat</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+vi-VN
+<info>
+	<translator>
+		<name>dowens76</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+km-KH
+<info>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+sv-SE
+<info>
+	<translator>
+		<name>torfeur</name>
+	</translator>
+	<translator>
+		<name>Sylvester Keil</name>
+	</translator>
+	<translator>
+		<name>Sebastian Karcher</name>
+	</translator>
+	<translator>
+		<name>Ulf Harnhammar</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+eu
+<info>
+	<translator>
+		<name>Amaraun</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+da-DK
+<info>
+	<translator>
+		<name>Niels Erik Wille</name>
+	</translator>
+	<translator>
+		<name>Jonas Nyrup</name>
+	</translator>
+	<translator>
+		<name>hafnius</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+nb-NO
+<info>
+	<translator>
+		<name>Guttorm Flatabø</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2013-03-01T12:20:00+01:00</updated>
+</info>
+
+---
+
+hr-HR
+<info>
+	<translator>
+		<name>tvrbanec</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+de-DE
+<info>
+	<translator>
+		<name>Till A. Heilmann</name>
+	</translator>
+	<translator>
+		<name>Ulrich</name>
+	</translator>
+	<translator>
+		<name>Rintze M. Zelle</name>
+	</translator>
+	<translator>
+		<name>Sebastian Karcher</name>
+	</translator>
+	<translator>
+		<name>jakov</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+lv-LV
+<info>
+	<translator>
+		<name>Andris Lupgins</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-12-27T11:40:58+02:00</updated>
+</info>
+
+---
+
+zh-TW
+<info>
+	<translator>
+		<name>sati-bodhi</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2014-05-15T23:31:02+00:00</updated>
+</info>
+
+---
+
+el-GR
+<info>
+	<translator>
+		<name>thanasis57</name>
+	</translator>
+	<translator>
+		<name>dimtamb</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2013-11-08T20:31:02+00:00</updated>
+</info>
+
+---
+
+ja-JP
+<info>
+	<translator>
+		<name>Shoji Takahashi</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+mn-MN
+<info>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+sk-SK
+<info>
+	<translator>
+		<name>Tomáš Ferianc</name>
+	</translator>
+	<translator>
+		<name>kohafan</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2014-03-09T22:23:31+00:00</updated>
+</info>
+
+---
+
+fr-CA
+<info>
+	<translator>
+		<name>Grégoire Colly</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+ar
+<info>
+	<translator>
+		<name>abdealikhurrum</name>
+	</translator>
+	<translator>
+		<name>Dr. Ayman Saleh</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+cy-GB
+<info>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2014-10-08T12:00:00+00:00</updated>
+</info>
+
+---
+
+af-ZA
+<info>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+nn-NO
+<info>
+	<translator>
+		<name>Guttorm Flatabø</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2013-03-01T12:20:00+01:00</updated>
+</info>
+
+---
+
+id-ID
+<info>
+	<translator>
+		<name>faizhabibullah</name>
+	</translator>
+	<translator>
+		<name>Deden Habibi</name>
+	</translator>
+	<translator>
+		<name>xbypass</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2015-08-05T23:31:02+00:00</updated>
+</info>
+
+---
+
+ru-RU
+<info>
+	<translator>
+		<name>Alexei Kouprianov</name>
+		<email>alexei.kouprianov@gmail.com</email>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+tr-TR
+<info>
+	<translator>
+		<name>ekizyener</name>
+	</translator>
+	<translator>
+		<name>Binici</name>
+	</translator>
+	<translator>
+		<name>cengiza</name>
+	</translator>
+	<translator>
+		<name>Muhammet Tarakçı</name>
+		<email>muhammettarakci@gmail.com</email>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+cs-CZ
+<info>
+	<translator>
+		<name>nosaal</name>
+	</translator>
+	<translator>
+		<name>Andrew Dunning</name>
+	</translator>
+	<translator>
+		<name>libora</name>
+	</translator>
+	<translator>
+		<name>Michal Hoftich</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+sl-SI
+<info>
+	<translator>
+		<name>Kristof Ostir</name>
+	</translator>
+	<translator>
+		<name>ratek1</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2014-11-06T09:41:02+00:00</updated>
+</info>
+
+---
+
+fr-FR
+<info>
+	<translator>
+		<name>Grégoire Colly</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+es-CL
+<info>
+	<translator>
+		<name>Scott Sadowsky</name>
+		<uri>http://sadowsky.cl/</uri>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2013-10-28T13:57:31-04:00</updated>
+</info>
+
+---
+
+et-EE
+<info>
+	<translator>
+		<name>Andrew Dunning</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+de-AT
+<info>
+	<translator>
+		<name>Till A. Heilmann</name>
+	</translator>
+	<translator>
+		<name>Georg Duffner</name>
+	</translator>
+	<translator>
+		<name>Sebastian Karcher</name>
+	</translator>
+	<translator>
+		<name>Sylvester Keil</name>
+	</translator>
+	<translator>
+		<name>jakov</name>
+	</translator>
+	<translator>
+		<name>Frank Bennett</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+fa-IR
+<info>
+	<translator>
+		<name>Hamed Heydari</name>
+	</translator>
+	<translator>
+		<name>abdealikhurrum</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2012-07-04T23:31:02+00:00</updated>
+</info>
+
+---
+
+la
+<info>
+	<translator>
+		<name>Andrew Dunning</name>
+	</translator>
+	<rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+	<updated>2019-01-21T13:33:33+00:00</updated>
+</info>
+
+---
+

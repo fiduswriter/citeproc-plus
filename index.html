@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="local.css" />
+  </head>
+
+  <body>
+    <h1>CSL Bibliography Samples</h1>
+
+    <p>
+      This page displays citations rendered by <span style="font-family: courier, monospace">citeproc-js</span>.
+    </p>
+
+    <input type="button" id="render" value="Start"/>
+    <select id="style-selector"></select>
+    <hr/>
+
+    <h2>Citations</h2>
+
+    <div id="cite-div"></div>
+
+    <hr/>
+
+    <div id="time-div" hidden="true">
+      <b>Time:</b> <span id="time-span"></span>
+    </div>
+
+    <hr/>
+
+    <h2>Bibliography</h2>
+    <div id="bib-div"></div>
+    <script type='text/javascript' src='dist/main.js'></script>
+  </body>
+</html>
