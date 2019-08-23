@@ -1,0 +1,52 @@
+{
+  "name": "citeproc-plus",
+  "version": "0.0.1",
+  "description": "Citeproc-js + citation styles bundled",
+  "main": "dist/index.js",
+  "module": "dist/module/index.js",
+  "scripts": {
+    "prebuild": "npm run lint",
+    "build": "rm -rf dist/ && rollup -c",
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
+    "lint": "eslint src/*js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "get_locales": "rm -rf locales-master/ && wget -qO- https://github.com/citation-style-language/locales/archive/master.zip | bsdtar -xvf-",
+    "get_styles": "rm -rf styles-master/ && wget -qO- https://github.com/citation-style-language/styles/archive/master.zip | bsdtar -xvf-",
+    "postinstall": "npm run get_styles && npm run get_locales && ./convert.py && npm run get_citeproc_license",
+    "get_citeproc_license": "cp node_modules/citeproc/LICENSE ./software_license.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johanneswilm/citeproc-plus.git"
+  },
+  "keywords": [
+    "citeproc",
+    "csl",
+    "citation",
+    "styles"
+  ],
+  "author": "Johannes Wilm",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/johanneswilm/citeproc-plus/issues"
+  },
+  "homepage": "https://github.com/johanneswilm/citeproc-plus#readme",
+  "devDependencies": {
+    "citeproc": "^2.2.21",
+    "eslint": "^6.2.1",
+    "rollup": "^1.20.1",
+    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-commonjs": "^10.0.2",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-rebase": "^3.2.1",
+    "rollup-plugin-terser": "^5.1.1"
+  },
+  "files": [
+    "LICENSE",
+    "locale_licenses.txt",
+    "software_licenses.txt",
+    "licenses.txt",
+    "dist/*"
+  ]
+}

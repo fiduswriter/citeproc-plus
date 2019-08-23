@@ -61,12 +61,6 @@ typings/
 .next
 
 # citeproc-plus specific
-style_licenses.txt
-software_licenses.txt
 styles-master/
 locales-master/
-src/styles/
-src/locales/
-src/styles.js
-src/locales.js
-dist/
+src/
