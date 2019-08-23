@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/module/index.js",
   "scripts": {
-    "prebuild": "npm run lint",
+    "prebuild": "npm run lint && npm run get_styles && npm run get_locales && ./convert.py && npm run get_citeproc_license",
     "build": "rm -rf dist/ && rollup -c",
     "prepublishOnly": "npm run build",
     "prepare": "npm run build",
@@ -13,7 +13,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "get_locales": "rm -rf locales-master/ && wget -qO- https://github.com/citation-style-language/locales/archive/master.zip | bsdtar -xvf-",
     "get_styles": "rm -rf styles-master/ && wget -qO- https://github.com/citation-style-language/styles/archive/master.zip | bsdtar -xvf-",
-    "postinstall": "npm run get_styles && npm run get_locales && ./convert.py && npm run get_citeproc_license",
     "get_citeproc_license": "cp node_modules/citeproc/LICENSE ./software_license.txt"
   },
   "repository": {
