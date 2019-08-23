@@ -1,7 +1,7 @@
 module.exports = {
   mode: "production",
   output: {
-    publicPath: "/dist/",
+    publicPath: "/citeproc-plus/dist/",
   },
   module: {
     rules: [
