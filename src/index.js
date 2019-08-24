@@ -1,7 +1,9 @@
-import {CSLEngine, styleOptions} from "citeproc-plus"
+import {Citeproc, styleOptions} from "citeproc-plus"
 
 // demo.js
 // for citeproc-js CSL citation formatter
+
+
 
 // Get the citations that we are supposed to render, in the CSL-json format
 var xhr = new XMLHttpRequest();
@@ -23,6 +25,7 @@ for (let item of itemsArray) {
     items[item.id] = item;
 }
 
+
 // Initialize a system object, which contains two methods needed by the
 // engine.
 const citeprocSys = {
@@ -37,10 +40,10 @@ let citationStyle = 'ambio'
 
 // Given the identifier of a CSL style, this function instantiates a CSL.Engine
 // object that can render citations in that style.
+const processor = new Citeproc();
 function getProcessor() {
     // Instantiate and return the engine
-    var citeproc = new CSLEngine(citeprocSys, citationStyle);
-    return citeproc.init();
+    return processor.getEngine(citeprocSys, citationStyle);
 };
 
 function runOneStep(idx) {
