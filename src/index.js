@@ -36,7 +36,7 @@ const citeprocSys = {
     }
 };
 
-let citationStyle = 'ambio'
+let citationStyle
 
 // Given the identifier of a CSL style, this function instantiates a CSL.Engine
 // object that can render citations in that style.
@@ -90,6 +90,15 @@ function runRenderBib(idx) {
     }
 }
 
+
+
+const styleSelector = document.querySelector('#style-selector')
+
+styleSelector.innerHTML = Object.entries(styleOptions).sort((a,b) => (a[1] > b[1] ? 1 : -1)).map(([key, value]) => `<option value="${key}">${value}</option>`).join('')
+window.STYLES = Object.entries(styleOptions)
+
+citationStyle = styleSelector.value
+
 let citeproc
 
 getProcessor().then(
@@ -98,10 +107,6 @@ getProcessor().then(
         document.querySelector('#render').addEventListener('click', () => renderBib())
     }
 )
-
-const styleSelector = document.querySelector('#style-selector')
-
-styleSelector.innerHTML = Object.entries(styleOptions).map(([key, value]) => `<option value="${key}">${value}</option>`).join('')
 
 styleSelector.addEventListener('change', () => {
     citationStyle = styleSelector.value
