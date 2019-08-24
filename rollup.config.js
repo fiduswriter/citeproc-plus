@@ -1,6 +1,7 @@
 import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 import buble from 'rollup-plugin-buble'
+import replace from 'rollup-plugin-replace'
 import rebasePlugin from "rollup-plugin-rebase"
 import {terser} from 'rollup-plugin-terser'
 
@@ -8,6 +9,9 @@ export default [
     {
         input: 'src/index.js',
         plugins: [
+            replace({
+                'module.exports = CSL': 'delete CSL.parseXml;\ndelete CSL.XmlDOM;\nCSL.setupXml = obj => new CSL.XmlJSON(obj);\nmodule.exports = CSL'
+            }),
             rebasePlugin({
                 assetFolder: 'assets'
             }),
@@ -25,6 +29,9 @@ export default [
     {
         input: 'src/index.js',
         plugins: [
+            replace({
+                'module.exports = CSL': 'delete CSL.parseXml;\ndelete CSL.XmlDOM;\nCSL.setupXml = obj => new CSL.XmlJSON(obj);\nmodule.exports = CSL'
+            }),
             rebasePlugin({
                 assetFolder: 'assets'
             }),

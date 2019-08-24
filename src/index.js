@@ -1,73 +1,79 @@
 import CSL from "citeproc"
 
-import {styles} from "./styles"
-import {locales} from "./locales"
+import {styles} from "../build/styles"
+import {locales} from "../build/locales"
 import {inflateCSLObj} from "./tools"
-export {styleOptions} from "./styles"
+export {styleOptions} from "../build/styles"
 
 
-export class CSLEngine {
-    constructor(sys, styleId, lang, forceLang) {
-        this.sys = sys
-        this.styleId = styleId
-        this.lang = lang
-        this.forceLang = forceLang
-        this.locale = false
-        this.style = false
+export class Citeproc {
+    constructor() {
+        this.styles = {}
+        this.locales = {}
     }
 
-    init() {
-        return this.getStyle().then(
-            () => this.getLocale()
+    getEngine(sys, styleId, lang, forceLang) {
+        let style
+        return this.getStyle(styleId).then(
+            newStyle => {
+                style = newStyle
+                return this.getLocale(sys, style, lang, forceLang)
+            }
         ).then(
-            () => new CSL.Engine(this.sys, this.style, this.lang, this.forceLang)
+            newSys => new CSL.Engine(newSys, style, lang, forceLang)
         )
     }
 
-    getStyle() {
-        if (!(typeof this.styleId === 'string')) {
-            this.style = this.styleId
-            return Promise.resolve()
-        }
-        let {styleId} = this
+    getStyle(styleId) {
         if (!styles[styleId]) {
             styleId = Object.keys(styles).find(() => true)
         }
+        if (this.styles[styleId]) {
+            return Promise.resolve(this.styles[styleId])
+        }
+
         return fetch(styles[styleId], {
             method: "GET"
         }).then(
             response => response.json()
         ).then(
-            json => this.style = inflateCSLObj(json)
+            json => {
+                this.styles[styleId] = inflateCSLObj(json)
+                return this.styles[styleId]
+            }
         )
     }
 
-    getLocale() {
-        if (this.sys.retrieveLocale) {
-            return Promise.resolve()
-        }
+    getLocale(sys, style, lang, forceLang) {
 
-        this.origSys = this.sys
-
-        this.sys = {
-            retrieveItem: id => this.origSys.retrieveItem(id),
-            retrieveLocale: () => this.locale
-        }
-
-        let lang = this.forceLang ? this.forceLang :
-            this.style.attrs['default-locale'] ? this.style.attrs['default-locale'] :
-            this.lang ? this.lang :
+        let localeId = forceLang ? forceLang :
+            style.attrs['default-locale'] ? style.attrs['default-locale'] :
+            lang ? lang :
             'en-US'
 
-        if (!locales[lang]) {
-            lang = 'en-US'
+        if (!locales[localeId]) {
+            localeId = 'en-US'
         }
-        return fetch(locales[lang], {
+
+        if (this.locales[localeId]) {
+            return Promise.resolve({
+                retrieveItem: id => sys.retrieveItem(id),
+                retrieveLocale: () => this.locales[localeId]
+            })
+        }
+
+        return fetch(locales[localeId], {
             method: "GET"
         }).then(
             response => response.json()
         ).then(
-            json => this.locale = inflateCSLObj(json)
+            json => {
+                this.locales[localeId] = inflateCSLObj(json)
+                return {
+                    retrieveItem: id => sys.retrieveItem(id),
+                    retrieveLocale: () => this.locales[localeId]
+                }
+            }
         )
     }
 }

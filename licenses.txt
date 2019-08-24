@@ -4,5 +4,6 @@ On NPM, it is packaged together with other software. Y
 ou can find license information about these packages as outlined below:
 
 citeproc-js: See software_license.txt
-citation styles: See style_licenses.txt
 citation locales: See locale_licenses.txt
+citation styles: See style_licenses.txt
+additional citation styles added in this repository: See extra_style_licenses.txt

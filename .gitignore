@@ -64,10 +64,6 @@ typings/
 locale_licenses.txt
 style_licenses.txt
 software_license.txt
-styles-master/
-locales-master/
-src/styles/
-src/locales/
-src/styles.js
-src/locales.js
+build/
 dist/
+package-lock.json

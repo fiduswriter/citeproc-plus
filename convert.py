@@ -49,8 +49,8 @@ if __name__ == "__main__":
     import os
     import shutil
 
-    dir = './styles-master/'
-    out_dir = './src/styles/'
+    dirs = ['./src/extra_styles/', './build/styles-master/']
+    out_dir = './build/styles/'
     out_relative_path = './styles/'
 
     license_txt = (
@@ -67,29 +67,30 @@ if __name__ == "__main__":
 
     os.makedirs(out_dir)
 
-    for file in os.listdir(os.fsencode(dir)):
-        filename = os.fsdecode(file)
-        if filename.endswith(".csl"):
-            id = filename[:-4]
-            js_id = id.replace('-', '_')
-            walker = XMLWalker(open(os.path.join(dir, filename)).read())
-            out_file = open(os.path.join(out_dir, id + '.csljson'), 'w')
-            json.dump(walker.output, out_file)
-            styles_js_preamble += 'import {} from "{}"\n'.format(
-                js_id,
-                os.path.join(out_relative_path, id + '.csljson')
-            )
-            styles_js_body += '    "{}": {},\n'.format(
-                id,
-                js_id
-            )
-            styles_js_options += '    "{}": "{}",\n'.format(
-                id,
-                walker.title.replace('"', '\\"')
-            )
-            license_txt += '{}\n'.format(id)
-            license_txt += walker.license_info
-            license_txt += '\n\n---\n\n'
+    for dir in dirs:
+        for file in os.listdir(os.fsencode(dir)):
+            filename = os.fsdecode(file)
+            if filename.endswith(".csl"):
+                id = filename[:-4]
+                js_id = id.replace('-', '_')
+                walker = XMLWalker(open(os.path.join(dir, filename)).read())
+                out_file = open(os.path.join(out_dir, id + '.csljson'), 'w')
+                json.dump(walker.output, out_file)
+                styles_js_preamble += 'import {} from "{}"\n'.format(
+                    js_id,
+                    os.path.join(out_relative_path, id + '.csljson')
+                )
+                styles_js_body += '    "{}": {},\n'.format(
+                    id,
+                    js_id
+                )
+                styles_js_options += '    "{}": "{}",\n'.format(
+                    id,
+                    walker.title.replace('"', '\\"')
+                )
+                license_txt += '{}\n'.format(id)
+                license_txt += walker.license_info
+                license_txt += '\n\n---\n\n'
     styles_js = (
         styles_js_preamble +
         '\nexport const styles = {\n' +
@@ -99,14 +100,14 @@ if __name__ == "__main__":
         styles_js_options[:-2] +
         '\n}\n'
     )
-    with open('src/styles.js', 'w') as out_file:
+    with open('build/styles.js', 'w') as out_file:
         out_file.write(styles_js)
 
     with open('style_licenses.txt', 'w') as out_file:
         out_file.write(license_txt)
 
-    dir = './locales-master/'
-    out_dir = './src/locales/'
+    dir = './build/locales-master/'
+    out_dir = './build/locales/'
     out_relative_path = './locales/'
 
     license_txt = (
@@ -147,7 +148,7 @@ if __name__ == "__main__":
         locales_js_body[:-1] +
         '}'
     )
-    with open('src/locales.js', 'w') as out_file:
+    with open('build/locales.js', 'w') as out_file:
         out_file.write(locales_js)
 
     with open('locale_licenses.txt', 'w') as out_file:
