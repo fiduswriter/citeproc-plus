@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 from xml.dom import minidom
-
-# Based on https://bitbucket.org/fbennett/citeproc-js/src/default/makejson.py
+# By Johannes Wilm
+# based on https://bitbucket.org/fbennett/citeproc-js/src/default/makejson.py
 # by Frank Bennett
 # See license info
 # https://bitbucket.org/fbennett/citeproc-js/src/default/LICENSE
+
+UNLISTED_STYLES = ['jats'] # styles that should not appear in user facing lists of styles but that are nevertheless valid
 
 
 class XMLWalker:
@@ -84,10 +86,11 @@ if __name__ == "__main__":
                     id,
                     js_id
                 )
-                styles_js_options += '    "{}": "{}",\n'.format(
-                    id,
-                    walker.title.replace('"', '\\"')
-                )
+                if not id in UNLISTED_STYLES:
+                    styles_js_options += '    "{}": "{}",\n'.format(
+                        id,
+                        walker.title.replace('"', '\\"')
+                    )
                 license_txt += '{}\n'.format(id)
                 license_txt += walker.license_info
                 license_txt += '\n\n---\n\n'
