@@ -1,4 +1,4 @@
-export function inflateStyleObj(slimObj) {
+export function inflateCSLObj(slimObj) {
     const obj = {}
     obj.name = slimObj.n
     if (slimObj.a) {
@@ -12,7 +12,7 @@ export function inflateStyleObj(slimObj) {
             if (typeof child === 'string') {
                 obj.children.push(child)
             } else {
-                obj.children.push(inflateStyleObj(child))
+                obj.children.push(inflateCSLObj(child))
             }
         })
     } else if (slimObj.name === 'term') {

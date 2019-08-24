@@ -2,23 +2,18 @@ import CSL from "citeproc"
 
 import {styles} from "./styles"
 import {locales} from "./locales"
-import {inflateStyleObj} from "./tools"
+import {inflateCSLObj} from "./tools"
 export {styleOptions} from "./styles"
 
 
 export class CSLEngine {
-    constructor(sys, style, lang, forceLang) {
+    constructor(sys, styleId, lang, forceLang) {
         this.sys = sys
-        if (typeof style === 'string') {
-            this.styleId = style
-            this.style = false
-        } else {
-            this.style = style
-        }
-
+        this.styleId = styleId
         this.lang = lang
         this.forceLang = forceLang
         this.locale = false
+        this.style = false
     }
 
     init() {
@@ -30,15 +25,20 @@ export class CSLEngine {
     }
 
     getStyle() {
-        if (this.style) {
+        if (!(typeof this.styleId === 'string')) {
+            this.style = this.styleId
             return Promise.resolve()
         }
-        return fetch(styles[this.styleId], {
+        let {styleId} = this
+        if (!styles[styleId]) {
+            styleId = Object.keys(styles).find(() => true)
+        }
+        return fetch(styles[styleId], {
             method: "GET"
         }).then(
             response => response.json()
         ).then(
-            json => this.style = inflateStyleObj(json)
+            json => this.style = inflateCSLObj(json)
         )
     }
 
@@ -47,7 +47,12 @@ export class CSLEngine {
             return Promise.resolve()
         }
 
-        this.sys.retrieveLocale = () => this.locale
+        this.origSys = this.sys
+
+        this.sys = {
+            retrieveItem: id => this.origSys.retrieveItem(id),
+            retrieveLocale: () => this.locale
+        }
 
         let lang = this.forceLang ? this.forceLang :
             this.style.attrs['default-locale'] ? this.style.attrs['default-locale'] :
@@ -62,7 +67,7 @@ export class CSLEngine {
         }).then(
             response => response.json()
         ).then(
-            json => this.locale = inflateStyleObj(json)
+            json => this.locale = inflateCSLObj(json)
         )
     }
 }
