@@ -6,21 +6,21 @@ import {Citeproc, styleOptions} from "citeproc-plus"
 
 
 // Get the citations that we are supposed to render, in the CSL-json format
-var xhr = new XMLHttpRequest();
+const xhr = new XMLHttpRequest();
 
-var itemsArray = [];
-var citations = [];
-for (var i=1,ilen=8;i<ilen;i++) {
-    xhr.open('GET', 'citations-' + i + '.json', false);
+let itemsArray = [];
+let citations = [];
+for (let i=1, ilen=8;i<ilen;i++) {
+    xhr.open('GET', `citations-${i}.json`, false);
     xhr.send(null);
     citations = citations.concat(JSON.parse(xhr.responseText));
 
-    xhr.open('GET', 'items-' + i + '.json', false);
+    xhr.open('GET', `items-${i}.json`, false);
     xhr.send(null);
     itemsArray = itemsArray.concat(JSON.parse(xhr.responseText));
 }
 
-var items = {};
+const items = {};
 for (let item of itemsArray) {
     items[item.id] = item;
 }
@@ -31,7 +31,7 @@ for (let item of itemsArray) {
 const citeprocSys = {
     // Given an identifier, this retrieves one citation item.  This method
     // must return a valid CSL-JSON object.
-    retrieveItem: function(id){
+    retrieveItem(id) {
         return items[id];
     }
 };
@@ -44,19 +44,19 @@ const processor = new Citeproc();
 function getProcessor() {
     // Instantiate and return the engine
     return processor.getEngine(citeprocSys, citationStyle);
-};
+}
 
 function runOneStep(idx) {
-    var citeDiv = document.getElementById('cite-div');
-    var citationParams = citations[idx];
+    const citeDiv = document.getElementById('cite-div');
+    const citationParams = citations[idx];
     const citationStrings = citeproc.processCitationCluster(citationParams[0], citationParams[1], [])[1]
-    for (var citeInfo of citationStrings) {
+    for (const citeInfo of citationStrings) {
         // Prepare node
-        var newNode = document.createElement("div");
-        newNode.setAttribute("id", "n" + citeInfo[2]);
+        const newNode = document.createElement("div");
+        newNode.setAttribute("id", `n${citeInfo[2]}`);
         newNode.innerHTML = citeInfo[1];
         // Try for old node
-        var oldNode = document.getElementById("node-" + citeInfo[2]);
+        const oldNode = document.getElementById(`node-${citeInfo[2]}`);
         if (oldNode) {
             citeDiv.replaceChild(newNode, oldNode);
         } else {
@@ -66,7 +66,8 @@ function runOneStep(idx) {
     }
     runRenderBib(idx+1);
 }
-let t0, t1
+let t0;
+let t1;
 // This runs at document ready, and renders the bibliography
 function renderBib() {
     t0 = performance.now();
@@ -75,16 +76,16 @@ function renderBib() {
 function runRenderBib(idx) {
     if (idx === citations.length) {
         t1 = performance.now();
-        var timeDiv = document.getElementById("time-div");
-        var timeSpan = document.getElementById("time-span");
-        timeSpan.innerHTML = (t1 - t0) + " milliseconds";
+        const timeDiv = document.getElementById("time-div");
+        const timeSpan = document.getElementById("time-span");
+        timeSpan.innerHTML = `${t1 - t0} milliseconds`;
         timeDiv.hidden = false;
         // Bib
-        var bibDiv = document.getElementById('bib-div');
-        var bibResult = citeproc.makeBibliography();
+        const bibDiv = document.getElementById('bib-div');
+        const bibResult = citeproc.makeBibliography();
         bibDiv.innerHTML = bibResult[1].join('\n');
     } else {
-        setTimeout(function() {
+        setTimeout(() => {
             runOneStep(idx);
         }, 0)
     }
