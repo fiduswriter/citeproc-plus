@@ -5,14 +5,16 @@
   "main": "dist/index.js",
   "module": "dist/module/index.js",
   "scripts": {
-    "prebuild": "npm run lint && rm -rf build/ && mkdir build && npm run get_styles && npm run get_locales && ./convert.py && npm run get_citeproc_license",
+    "prebuild": "npm run lint && rm -rf build/ && mkdir build && npm run get_styles_commit && npm run get_styles && npm run get_locales_commit && npm run get_locales && ./convert.py && npm run get_citeproc_license",
     "build": "rm -rf dist/ && rollup -c",
     "prepublishOnly": "npm run build",
     "prepare": "npm run build",
     "lint": "eslint src/*js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "get_locales": "cd build && wget -qO- https://github.com/citation-style-language/locales/archive/master.zip | bsdtar -xvf- && cd ..",
+    "get_locales_commit":"wget -qO- http://api.github.com/repos/citation-style-language/locales/commits/master | jq -r '.sha' > locales_version.txt",
     "get_styles": "cd build && wget -qO- https://github.com/citation-style-language/styles/archive/master.zip | bsdtar -xvf- && cd ..",
+    "get_styles_commit":"wget -qO- http://api.github.com/repos/citation-style-language/styles/commits/master | jq -r '.sha' > styles_version.txt",
     "get_citeproc_license": "cp node_modules/citeproc/LICENSE ./software_license.txt"
   },
   "repository": {
@@ -47,6 +49,8 @@
     "locale_licenses.txt",
     "software_licenses.txt",
     "licenses.txt",
-    "dist/*"
+    "dist/*",
+    "locales_version.txt",
+    "styles_version.txt"
   ]
 }
