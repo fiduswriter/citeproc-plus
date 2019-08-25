@@ -15,7 +15,7 @@ export function inflateCSLObj(slimObj) {
                 obj.children.push(inflateCSLObj(child))
             }
         })
-    } else if (slimObj.name === 'term') {
+    } else if (slimObj.n === 'term') {
         obj.children.push('')
     }
     return obj
