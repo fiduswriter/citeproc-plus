@@ -26,9 +26,9 @@ const citeprocSys = {
         return items.find(item => item.id === id);
     }
 }
+const citeDiv = document.getElementById('cite-div')
 
 function runOneStep(idx) {
-    const citeDiv = document.getElementById('cite-div')
     const citationParams = citations[idx]
     const citationStrings = citeproc.processCitationCluster(citationParams[0], citationParams[1], [])[1]
     for (const citeInfo of citationStrings) {
@@ -47,24 +47,29 @@ function runOneStep(idx) {
     }
     runRenderBib(idx+1)
 }
+
+const bibDiv = document.getElementById('bib-div')
+const timeDiv = document.getElementById("time-div")
+const timeSpan = document.getElementById("time-span")
 let t0
 let t1
 // This runs at document ready, and renders the bibliography
 function renderBib() {
+    bibDiv.innerHTML = ''
+    citeDiv.innerHTML = ''
     t0 = performance.now()
     runRenderBib(0)
 }
 function runRenderBib(idx) {
     if (idx === citations.length) {
         t1 = performance.now()
-        const timeDiv = document.getElementById("time-div")
-        const timeSpan = document.getElementById("time-span")
         timeSpan.innerHTML = `${t1 - t0} milliseconds`
         timeDiv.hidden = false
         // Bib
-        const bibDiv = document.getElementById('bib-div')
         const bibResult = citeproc.makeBibliography()
-        bibDiv.innerHTML = bibResult[1].join('\n')
+        if (bibResult) {
+            bibDiv.innerHTML = bibResult[1].join('\n')
+        }
     } else {
         setTimeout(() => {
             runOneStep(idx)
