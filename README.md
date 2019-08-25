@@ -75,7 +75,7 @@ Advanced uses
 
 ## JATS ##
 
-For conversion purposes there is an extra style with the styleId `jats` that can be used as part of conversion packges. This style is not listed among the list of styles as it is not meant for human consumption.
+There is an extra style with the styleId `jats` that can be used as part of conversion packages. This style is not listed among the list of styles as it is not meant for human consumption.
 
 ## Manipulating a style in JavaScript ##
 
