@@ -12,7 +12,14 @@ export class Citeproc {
         this.locales = {}
     }
 
-    getEngine(sys, styleId, lang, forceLang) {
+    getEngine(originalSys, styleId, lang, forceLang) {
+
+        /*
+         * We clone the original sys so that we can add methods to it without destroying the original.
+         * Sys can be a class instance or a simple object.
+         */
+        const sys = Object.assign(Object.create(originalSys), originalSys)
+
         let style
         return this.getStyle(styleId).then(
             newStyle => {
@@ -20,11 +27,20 @@ export class Citeproc {
                 return this.getLocale(sys, style, lang, forceLang)
             }
         ).then(
-            newSys => new CSL.Engine(newSys, style, lang, forceLang)
+            () => new CSL.Engine(sys, style, lang, forceLang)
         )
     }
 
     getStyle(styleId) {
+        if (typeof styleId === 'object') {
+
+            /*
+             * Advanced usage: The styleId is a style definition itself.
+             * Return directly without caching.
+             */
+            return Promise.resolve(styleId)
+        }
+
         if (!styles[styleId]) {
             styleId = Object.keys(styles).find(() => true)
         }
@@ -55,11 +71,10 @@ export class Citeproc {
             localeId = 'en-US'
         }
 
+        sys.retrieveLocale = () => this.locales[localeId]
+
         if (this.locales[localeId]) {
-            return Promise.resolve({
-                retrieveItem: id => sys.retrieveItem(id),
-                retrieveLocale: () => this.locales[localeId]
-            })
+            return Promise.resolve()
         }
 
         return fetch(locales[localeId], {
@@ -67,13 +82,7 @@ export class Citeproc {
         }).then(
             response => response.json()
         ).then(
-            json => {
-                this.locales[localeId] = inflateCSLObj(json)
-                return {
-                    retrieveItem: id => sys.retrieveItem(id),
-                    retrieveLocale: () => this.locales[localeId]
-                }
-            }
+            json => this.locales[localeId] = inflateCSLObj(json)
         )
     }
 }

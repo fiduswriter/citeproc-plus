@@ -10,7 +10,13 @@ export default [
         input: 'src/index.js',
         plugins: [
             replace({
-                'module.exports = CSL': 'delete CSL.parseXml;\ndelete CSL.XmlDOM;\nCSL.setupXml = obj => new CSL.XmlJSON(obj);\nmodule.exports = CSL'
+                delimiters: ['', ''],
+                'CSL.setupXml =': 'const unusedXml =',
+                'CSL.setupXml': 'new CSL.XmlJSON',
+                'CSL.XmlDOM =': 'let XmlDOM =',
+                'CSL.XmlDOM': 'XmlDOM',
+                'CSL.parseXml =': 'const parseXml =',
+                'CSL.parseXml': 'parseXml'
             }),
             rebasePlugin({
                 assetFolder: 'assets'
@@ -30,7 +36,13 @@ export default [
         input: 'src/index.js',
         plugins: [
             replace({
-                'module.exports = CSL': 'delete CSL.parseXml;\ndelete CSL.XmlDOM;\nCSL.setupXml = obj => new CSL.XmlJSON(obj);\nmodule.exports = CSL'
+                delimiters: ['', ''],
+                'CSL.setupXml =': 'const unusedXml =',
+                'CSL.setupXml': 'new CSL.XmlJSON',
+                'CSL.XmlDOM =': 'let XmlDOM =',
+                'CSL.XmlDOM': 'XmlDOM',
+                'CSL.parseXml =': 'const parseXml =',
+                'CSL.parseXml': 'parseXml'
             }),
             rebasePlugin({
                 assetFolder: 'assets'
