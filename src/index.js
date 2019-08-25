@@ -7,18 +7,15 @@ import {Citeproc, styleOptions} from "citeproc-plus"
 // The order doesn't matter.
 let items = []
 let citations = []
-const promises = []
+const fetchCitations = []
+const fetchItems = []
 for (let i=1, ilen=8;i<ilen;i++) {
-    promises.push(fetch(`citations-${i}.json`).then(
+    fetchCitations.push(fetch(`citations-${i}.json`).then(
         response => response.json()
-    ).then(
-        json => citations = citations.concat(json)
-    ));
+    ))
 
-    promises.push(fetch(`items-${i}.json`).then(
+    fetchItems.push(fetch(`items-${i}.json`).then(
         response => response.json()
-    ).then(
-        json => items = items.concat(json)
     ))
 }
 
@@ -87,7 +84,14 @@ const CSL = new Citeproc()
 
 let citeproc, citationStyle
 
-Promise.all(promises).then(
+Promise.all([
+    Promise.all(fetchCitations).then(
+        citationBlocks => citations = citationBlocks.flat()
+    ),
+    Promise.all(fetchItems).then(
+        itemBlocks => items = itemBlocks.flat()
+    )
+]).then(
     () => {
         styleSelector.addEventListener('change', () => {
             citationStyle = styleSelector.value

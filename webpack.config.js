@@ -1,5 +1,5 @@
 module.exports = {
-  mode: "development",
+  mode: "production",
   output: {
     publicPath: "dist/",
   },
