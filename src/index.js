@@ -3,26 +3,22 @@ import {Citeproc, styleOptions} from "citeproc-plus"
 // demo.js
 // for citeproc-js CSL citation formatter
 
-
-
 // Get the citations that we are supposed to render, in the CSL-json format
-const xhr = new XMLHttpRequest();
 
-let itemsArray = [];
+let items = [];
 let citations = [];
 for (let i=1, ilen=8;i<ilen;i++) {
-    xhr.open('GET', `citations-${i}.json`, false);
-    xhr.send(null);
-    citations = citations.concat(JSON.parse(xhr.responseText));
+    fetch(`citations-${i}.json`).then(
+        response => response.json()
+    ).then(
+        json => citations = citations.concat(json)
+    );
 
-    xhr.open('GET', `items-${i}.json`, false);
-    xhr.send(null);
-    itemsArray = itemsArray.concat(JSON.parse(xhr.responseText));
-}
-
-const items = {};
-for (let item of itemsArray) {
-    items[item.id] = item;
+    fetch(`items-${i}.json`).then(
+        response => response.json()
+    ).then(
+        json => items = items.concat(json)
+    );
 }
 
 
@@ -32,7 +28,7 @@ const citeprocSys = {
     // Given an identifier, this retrieves one citation item.  This method
     // must return a valid CSL-JSON object.
     retrieveItem(id) {
-        return items[id];
+        return items.find(item => item.id === id);
     }
 };
 
