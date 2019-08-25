@@ -1,6 +1,6 @@
 {
   "name": "citeproc-plus",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Citeproc-js + citation styles bundled",
   "main": "dist/index.js",
   "module": "dist/module/index.js",
@@ -12,9 +12,9 @@
     "lint": "eslint src/*js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "get_locales": "cd build && wget -qO- https://github.com/citation-style-language/locales/archive/master.zip | bsdtar -xvf- && cd ..",
-    "get_locales_commit":"wget -qO- http://api.github.com/repos/citation-style-language/locales/commits/master | jq -r '.sha' > locales_version.txt",
+    "get_locales_commit": "wget -qO- http://api.github.com/repos/citation-style-language/locales/commits/master | jq -r '.sha' > locales_version.txt",
     "get_styles": "cd build && wget -qO- https://github.com/citation-style-language/styles/archive/master.zip | bsdtar -xvf- && cd ..",
-    "get_styles_commit":"wget -qO- http://api.github.com/repos/citation-style-language/styles/commits/master | jq -r '.sha' > styles_version.txt",
+    "get_styles_commit": "wget -qO- http://api.github.com/repos/citation-style-language/styles/commits/master | jq -r '.sha' > styles_version.txt",
     "get_citeproc_license": "cp node_modules/citeproc/LICENSE ./software_license.txt"
   },
   "repository": {
