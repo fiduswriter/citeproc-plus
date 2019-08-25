@@ -4,9 +4,6 @@ import {Citeproc, styleOptions} from "citeproc-plus"
 // for citeproc-js CSL citation formatter
 
 // Get the citations that we are supposed to render, in the CSL-json format
-// The order doesn't matter.
-let items = []
-let citations = []
 const fetchCitations = []
 const fetchItems = []
 for (let i=1, ilen=8;i<ilen;i++) {
@@ -82,8 +79,7 @@ styleSelector.innerHTML += Object.entries(styleOptions).sort((a,b) => (a[1] > b[
 
 const CSL = new Citeproc()
 
-let citeproc, citationStyle
-
+let citeproc, citationStyle, items, citations
 Promise.all([
     Promise.all(fetchCitations).then(
         citationBlocks => citations = citationBlocks.flat()
