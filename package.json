@@ -24,7 +24,7 @@
   "keywords": [
     "citeproc",
     "csl",
-    "citation",
+    "citations",
     "styles"
   ],
   "author": "Johannes Wilm",
@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/johanneswilm/citeproc-plus#readme",
   "devDependencies": {
-    "citeproc": "^2.2.21",
+    "citeproc": "^2.2.22",
     "eslint": "^6.2.1",
     "rollup": "^1.20.1",
     "rollup-plugin-buble": "^0.19.8",
