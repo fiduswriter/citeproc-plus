@@ -61,10 +61,10 @@ dom.innerHTML =
 const processors = new Citeproc()
 
 processors.getEngine(
-    sys, // required, same as for citeproc-js, but without the retrieveLocale key
-    styleId, // required, The id of the style to use
-    lang, // optional, same as for citeproc-js 
-    forceLang // optional, same as for citeproc-js
+  sys, // required, same as for citeproc-js, but without the retrieveLocale key
+  styleId, // required, The id of the style to use
+  lang, // optional, same as for citeproc-js 
+  forceLang // optional, same as for citeproc-js
 ).then(
   engine => ...
 )
