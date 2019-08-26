@@ -47,9 +47,7 @@ import {CSL, styles} from "citeproc-plus"
 ```js
 dom.innerHTML =
   `<select>${
-    Object.entries(styles).sort(
-      (a,b) => (a[1] > b[1] ? 1 : -1)
-    ).map(
+    Object.entries(styles).map(
       ([key, value]) => `<option value="${key}">${value}</option>`
     ).join('')
   }</select>`

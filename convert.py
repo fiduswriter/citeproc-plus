@@ -62,8 +62,7 @@ if __name__ == "__main__":
     )
     styles_js_preamble = ''
     styles_js_body = ''
-    styles_js_options = ''
-
+    style_list = []
     if os.path.exists(out_dir):
         shutil.rmtree(out_dir)
 
@@ -87,13 +86,23 @@ if __name__ == "__main__":
                     js_id
                 )
                 if not id in UNLISTED_STYLES:
-                    styles_js_options += '    "{}": "{}",\n'.format(
-                        id,
-                        walker.title.replace('"', '\\"')
-                    )
+                    title = walker.title.replace('"', '\\"')
+                    style_list.append([
+                        title,
+                        '    "{}": "{}",\n'.format(
+                            id,
+                            title
+                        )
+                    ])
                 license_txt += '{}\n'.format(id)
                 license_txt += walker.license_info
                 license_txt += '\n\n---\n\n'
+
+    sorted_style_list = sorted(style_list, key=lambda k: k[0])
+    styles_js_options = ''
+    for style in sorted_style_list:
+        styles_js_options += style[1]
+
     styles_js = (
         styles_js_preamble +
         '\nexport const styleLocations = {\n' +
