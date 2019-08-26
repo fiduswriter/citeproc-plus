@@ -1,4 +1,4 @@
-import {Citeproc, styleOptions} from "citeproc-plus"
+import {CSL, styles} from "citeproc-plus"
 
 // demo.js
 // for citeproc-js CSL citation formatter
@@ -16,6 +16,8 @@ for (let i=1, ilen=8;i<ilen;i++) {
     ))
 }
 
+const styleSelector = document.querySelector('#style-selector')
+styleSelector.innerHTML += Object.entries(styles).map(([key, value]) => `<option value="${key}">${value}</option>`).join('')
 
 // Initialize a system object, which contains two methods needed by the
 // engine.
@@ -77,14 +79,9 @@ function runRenderBib(idx) {
     }
 }
 
+const csl = new CSL()
 
-
-const styleSelector = document.querySelector('#style-selector')
-styleSelector.innerHTML += Object.entries(styleOptions).sort((a,b) => (a[1] > b[1] ? 1 : -1)).map(([key, value]) => `<option value="${key}">${value}</option>`).join('')
-
-const CSL = new Citeproc()
-
-let citeproc, citationStyle, items, citations
+let citeproc, items, citations
 Promise.all([
     Promise.all(fetchCitations).then(
         citationBlocks => citations = citationBlocks.flat()
@@ -94,14 +91,9 @@ Promise.all([
     )
 ]).then(
     () => {
-        styleSelector.addEventListener('change', () => {
-            citationStyle = styleSelector.value
-            CSL.getEngine(citeprocSys, citationStyle).then(
-                proc => {
-                    citeproc = proc
-                    renderBib()
-                }
-            )
+        styleSelector.addEventListener('change', async () => {
+            citeproc = await csl.getEngine(citeprocSys, styleSelector.value)
+            renderBib()
         })
         styleSelector.removeAttribute('disabled')
     }
