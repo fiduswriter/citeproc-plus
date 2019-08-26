@@ -1,6 +1,6 @@
 import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
-import buble from 'rollup-plugin-buble'
+import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
 import rebasePlugin from "rollup-plugin-rebase"
 import {terser} from 'rollup-plugin-terser'
@@ -27,7 +27,7 @@ export default [
         ],
         output: // ES module version, for modern browsers
         {
-            dir: "dist/module",
+            dir: "dist",
             format: "es",
             sourcemap: true
         }
@@ -49,12 +49,13 @@ export default [
             }),
             resolve({browser: true}),
             commonjs(),
-            buble(),
+            babel(),
+            //buble({transforms: {asyncAwait: false}}),
             terser()
         ],
         output: // CJS version
         {
-            dir: "dist",
+            dir: "dist/cjs",
             format: "cjs",
             sourcemap: true
         }

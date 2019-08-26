@@ -96,10 +96,10 @@ if __name__ == "__main__":
                 license_txt += '\n\n---\n\n'
     styles_js = (
         styles_js_preamble +
-        '\nexport const styles = {\n' +
+        '\nexport const styleLocations = {\n' +
         styles_js_body[:-2] +
         '\n}\n' +
-        '\nexport const styleOptions = {\n' +
+        '\nexport const styles = {\n' +
         styles_js_options[:-2] +
         '\n}\n'
     )

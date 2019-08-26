@@ -2,8 +2,8 @@
   "name": "citeproc-plus",
   "version": "0.0.10",
   "description": "Citeproc-js + citation styles bundled",
-  "main": "dist/index.js",
-  "module": "dist/module/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/index.js",
   "scripts": {
     "prebuild": "npm run lint && rm -rf build/ && mkdir build && npm run get_styles_commit && npm run get_styles && npm run get_locales_commit && npm run get_locales && ./convert.py && npm run get_citeproc_license",
     "build": "rm -rf dist/ && rollup -c",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johanneswilm/citeproc-plus.git"
+    "url": "git+https://github.com/fiduswriter/citeproc-plus.git"
   },
   "keywords": [
     "citeproc",
@@ -30,14 +30,15 @@
   "author": "Johannes Wilm",
   "license": "LGPL-3.0",
   "bugs": {
-    "url": "https://github.com/johanneswilm/citeproc-plus/issues"
+    "url": "https://github.com/fiduswriter/citeproc-plus/issues"
   },
-  "homepage": "https://github.com/johanneswilm/citeproc-plus#readme",
+  "homepage": "https://github.com/fiduswriter/citeproc-plus#readme",
   "devDependencies": {
+    "@babel/core": "^7.5.5",
     "citeproc": "^2.2.22",
     "eslint": "^6.2.1",
     "rollup": "^1.20.1",
-    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.0.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-rebase": "^3.2.1",

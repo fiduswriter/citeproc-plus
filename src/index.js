@@ -1,67 +1,57 @@
-import CSL from "citeproc"
+import citeproc from "citeproc"
 
-import {styles} from "../build/styles"
+import {styleLocations} from "../build/styles"
 import {locales} from "../build/locales"
 import {inflateCSLObj} from "./tools"
-export {styleOptions} from "../build/styles"
+export {styles} from "../build/styles"
 
 
-export class Citeproc {
+export class CSL {
+
     constructor() {
         this.styles = {}
         this.locales = {}
     }
 
-    getEngine(originalSys, styleId, lang, forceLang) {
+    async getEngine(originalSys, styleId, lang, forceLang) {
+        const style = await this.getStyle(styleId)
+        const locale = await this.getLocale(style, lang, forceLang)
 
         /*
          * We clone the original sys so that we can add methods to it without destroying the original.
          * Sys can be a class instance or a simple object.
          */
-        const sys = Object.assign(Object.create(originalSys), originalSys)
 
-        let style
-        return this.getStyle(styleId).then(
-            newStyle => {
-                style = newStyle
-                return this.getLocale(sys, style, lang, forceLang)
-            }
-        ).then(
-            () => new CSL.Engine(sys, style, lang, forceLang)
-        )
+        const sys = Object.assign(Object.create(originalSys), originalSys)
+        sys.retrieveLocale = () => locale
+        return new citeproc.Engine(sys, style, lang, forceLang)
     }
 
-    getStyle(styleId) {
+    async getStyle(styleId) {
         if (typeof styleId === 'object') {
 
             /*
              * Advanced usage: The styleId is a style definition itself.
              * Return directly without caching.
              */
-            return Promise.resolve(styleId)
+
+            return styleId
         }
 
-        if (!styles[styleId]) {
-            styleId = Object.keys(styles).find(() => true)
+        if (!styleLocations[styleId]) {
+            styleId = Object.keys(styleLocations).find(() => true)
         }
         if (this.styles[styleId]) {
-            return Promise.resolve(this.styles[styleId])
+            return this.styles[styleId]
         }
 
-        return fetch(styles[styleId], {
-            method: "GET"
-        }).then(
-            response => response.json()
-        ).then(
-            json => {
-                this.styles[styleId] = inflateCSLObj(json)
-                return this.styles[styleId]
-            }
-        )
+        const response = await fetch(styleLocations[styleId], {method: "GET"})
+        const json = await response.json()
+        this.styles[styleId] = inflateCSLObj(json)
+        return this.styles[styleId]
     }
 
-    getLocale(sys, style, lang, forceLang) {
-
+    async getLocale(style, lang, forceLang) {
         let localeId = forceLang ? forceLang :
             style.attrs['default-locale'] ? style.attrs['default-locale'] :
             lang ? lang :
@@ -71,18 +61,13 @@ export class Citeproc {
             localeId = 'en-US'
         }
 
-        sys.retrieveLocale = () => this.locales[localeId]
-
         if (this.locales[localeId]) {
-            return Promise.resolve()
+            return this.locales[localeId]
         }
 
-        return fetch(locales[localeId], {
-            method: "GET"
-        }).then(
-            response => response.json()
-        ).then(
-            json => this.locales[localeId] = inflateCSLObj(json)
-        )
+        const response = await fetch(locales[localeId], {method: "GET"})
+        const json = await response.json()
+        this.locales[localeId] = inflateCSLObj(json)
+        return this.locales[localeId]
     }
 }
