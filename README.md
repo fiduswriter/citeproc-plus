@@ -1,7 +1,9 @@
 # citeproc-plus
-Citeproc-js + citation styles bundled
+`citeproc-js` + citation styles bundled
 
-This is an **early version** so be aware that the API may change. The point of this package is to bundle citeproc-js with the localizations and the 2000+ independent styles from https://github.com/citation-style-language/. You can try a demo at https://fiduswriter.github.io/citeproc-plus/.
+`citeproc-plus` incorporates 2000+ [styles](https://github.com/citation-style-language/styles/) and 50+ [locale](https://github.com/citation-style-language/locales/) files from the [Citation Style Language](https://citationstyles.org/) project, as well as [citeproc-js](https://github.com/Juris-M/citeproc-js), the JavaScript CSL processor library by Frank Bennett.
+
+This is an **early version** so be aware that the API may change. You can try a demo at https://fiduswriter.github.io/citeproc-plus/.
 
 This package is meant for those who want to use [citeproc-js](https://github.com/Juris-M/citeproc-js), but don't want to have to deal with retrieving and storing citation styles and localizations from other places on the web.
 
