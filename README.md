@@ -1,5 +1,4 @@
 # citeproc-plus
-`citeproc-js` + citation styles bundled
 
 `citeproc-plus` incorporates 2000+ [styles](https://github.com/citation-style-language/styles/) and 50+ [locale](https://github.com/citation-style-language/locales/) files from the [Citation Style Language](https://citationstyles.org/) project, as well as [citeproc-js](https://github.com/Juris-M/citeproc-js), the JavaScript CSL processor library by Frank Bennett.
 
