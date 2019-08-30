@@ -3,7 +3,6 @@ import {locales} from "../build/locales"
 import {inflateCSLObj} from "./tools"
 export {styles} from "../build/styles"
 
-
 export class CSL {
 
     constructor() {
