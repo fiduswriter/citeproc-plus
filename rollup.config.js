@@ -50,7 +50,6 @@ export default [
             resolve({browser: true}),
             commonjs(),
             babel(),
-            //buble({transforms: {asyncAwait: false}}),
             terser()
         ],
         output: // CJS version
