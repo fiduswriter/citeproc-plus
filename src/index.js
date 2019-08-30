@@ -80,7 +80,7 @@ function runRenderBib(idx) {
 }
 
 const csl = new CSL()
-
+window.csl = csl
 let citeproc, items, citations
 Promise.all([
     Promise.all(fetchCitations).then(

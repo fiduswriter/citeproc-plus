@@ -11,7 +11,7 @@
   "author": "Frank Bennet and Johannes Wilm",
   "license": "Mostly copied from https://github.com/Juris-M/citeproc-js/tree/master/demo",
   "dependencies": {
-    "citeproc-plus": "0.0.12",
+    "citeproc-plus": "0.0.16",
     "file-loader": "^4.2.0",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7"
