@@ -26,6 +26,29 @@ export class CSL {
         return new this.citeproc.Engine(sys, style, lang, forceLang)
     }
 
+    getEngineSync(originalSys, styleId, lang, forceLang) {
+        // Attempt to get engine synchronously based on already cached downloads. Returns false if cache is not available.
+        if (!this.citeproc || !this.styles[styleId]) {
+            return false
+        }
+        const style = this.styles[styleId]
+        let localeId = forceLang ? forceLang :
+            style.attrs['default-locale'] ? style.attrs['default-locale'] :
+            lang ? lang :
+            'en-US'
+
+        if (!this.locales[localeId]) {
+            localeId = 'en-US'
+        }
+        if (!this.locales[localeId]) {
+            return false
+        }
+        const locale = this.locales[localeId]
+        const sys = Object.assign(Object.create(originalSys), originalSys)
+        sys.retrieveLocale = () => locale
+        return new this.citeproc.Engine(sys, style, lang, forceLang)
+    }
+
     async getCiteproc() {
         if (this.citeproc) {
             return
@@ -64,7 +87,7 @@ export class CSL {
             lang ? lang :
             'en-US'
 
-        if (!locales[localeId]) {
+        if (!this.locales[localeId]) {
             localeId = 'en-US'
         }
 
