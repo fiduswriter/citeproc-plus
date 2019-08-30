@@ -1,5 +1,3 @@
-import citeproc from "citeproc"
-
 import {styleLocations} from "../build/styles"
 import {locales} from "../build/locales"
 import {inflateCSLObj} from "./tools"
@@ -11,9 +9,11 @@ export class CSL {
     constructor() {
         this.styles = {}
         this.locales = {}
+        this.citeproc = false
     }
 
     async getEngine(originalSys, styleId, lang, forceLang) {
+        await this.getCiteproc()
         const style = await this.getStyle(styleId)
         const locale = await this.getLocale(style, lang, forceLang)
 
@@ -24,7 +24,14 @@ export class CSL {
 
         const sys = Object.assign(Object.create(originalSys), originalSys)
         sys.retrieveLocale = () => locale
-        return new citeproc.Engine(sys, style, lang, forceLang)
+        return new this.citeproc.Engine(sys, style, lang, forceLang)
+    }
+
+    async getCiteproc() {
+        if (this.citeproc) {
+            return
+        }
+        this.citeproc = await import("citeproc")
     }
 
     async getStyle(styleId) {
