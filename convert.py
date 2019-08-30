@@ -51,7 +51,7 @@ if __name__ == "__main__":
     import os
     import shutil
 
-    dirs = ['./src/extra_styles/', './build/styles-master/']
+    dirs = ['./build/styles-master/', './src/extra_styles/']
     out_dir = './build/styles/'
     out_relative_path = './styles/'
 
