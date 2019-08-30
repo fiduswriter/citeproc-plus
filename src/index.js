@@ -30,7 +30,8 @@ export class CSL {
         if (this.citeproc) {
             return
         }
-        this.citeproc = await import("citeproc")
+        const citeprocModule = await import("citeproc")
+        this.citeproc = citeprocModule.default
     }
 
     async getStyle(styleId) {
