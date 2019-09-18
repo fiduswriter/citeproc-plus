@@ -39,22 +39,10 @@ module.exports = {
 3. Import `CSL` and `styles` in your app:
 
 ```js
-import {CSL, styles} from "citeproc-plus"
+import {CSL} from "citeproc-plus"
 ```
 
-
-4. `styles` is a dictionary of all the available styles with their `title` and `styleId`. To create an ordered list of all available styles, do:
-
-```js
-dom.innerHTML =
-  `<select>${
-    Object.entries(styles).map(
-      ([key, value]) => `<option value="${key}">${value}</option>`
-    ).join('')
-  }</select>`
-```
-
-5. Where in citeproc-js you would have called:
+4. Where in citeproc-js you would have called:
 
 ```js
 const citeproc = new CSL.Engine(sys, style, lang, forceLang)
@@ -70,6 +58,19 @@ const citeproc = await csl.getEngine(
   styleId, // required, The id of the style to use
   lang, // optional, same as for citeproc-js
   forceLang // optional, same as for citeproc-js
+)
+```
+
+to create a selector of all available styles:
+
+```js
+csl.getStyles().then(
+  styles => dom.innerHTML =
+    `<select>${
+      Object.entries(styles).map(
+        ([key, value]) => `<option value="${key}">${value}</option>`
+      ).join('')
+    }</select>`
 )
 ```
 

@@ -1,5 +1,4 @@
 import {inflateCSLObj} from "./tools"
-export {styles} from "../build/styles"
 
 export class CSL {
 
@@ -7,6 +6,10 @@ export class CSL {
         this.styles = {}
         this.locales = {}
         this.citeproc = false
+    }
+
+    getStyles() {
+        return import("../build/styles")
     }
 
     getEngine(originalSys, styleId, lang, forceLang) {
