@@ -11,19 +11,30 @@ export class CSL {
         this.citeproc = false
     }
 
-    async getEngine(originalSys, styleId, lang, forceLang) {
-        await this.getCiteproc()
-        const style = await this.getStyle(styleId)
-        const locale = await this.getLocale(style, lang, forceLang)
+    getEngine(originalSys, styleId, lang, forceLang) {
+        let locale, style
+        return Promise.all(
+            [
+                this.getCiteproc(),
+                this.getStyle(styleId).then(styleObj => style = styleObj)
+            ]
+        ).then(
+            () => this.getLocale(style, lang, forceLang).then(localeObj => locale = localeObj)
+        ).then(
+            () => {
 
-        /*
-         * We clone the original sys so that we can add methods to it without destroying the original.
-         * Sys can be a class instance or a simple object.
-         */
+                /*
+                 * We clone the original sys so that we can add methods to it without destroying the original.
+                 * Sys can be a class instance or a simple object.
+                 */
 
-        const sys = Object.assign(Object.create(originalSys), originalSys)
-        sys.retrieveLocale = () => locale
-        return new this.citeproc.Engine(sys, style, lang, forceLang)
+                const sys = Object.assign(Object.create(originalSys), originalSys)
+                sys.retrieveLocale = () => locale
+                return new this.citeproc.Engine(sys, style, lang, forceLang)
+            }
+        )
+
+
     }
 
     getEngineSync(originalSys, styleId, lang, forceLang) {
@@ -49,15 +60,17 @@ export class CSL {
         return new this.citeproc.Engine(sys, style, lang, forceLang)
     }
 
-    async getCiteproc() {
+    getCiteproc() {
         if (this.citeproc) {
-            return
+            return Promise.resolve()
         }
-        const citeprocModule = await import("citeproc")
-        this.citeproc = citeprocModule.default
+        return import("citeproc").then(
+            citeprocModule => this.citeproc = citeprocModule.default
+        )
     }
 
-    async getStyle(styleId) {
+    getStyle(styleId) {
+        console.log(styleId)
         if (typeof styleId === 'object') {
 
             /*
@@ -65,23 +78,27 @@ export class CSL {
              * Return directly without caching.
              */
 
-            return styleId
+            return Promise.resolve(styleId)
         }
 
         if (!styleLocations[styleId]) {
             styleId = Object.keys(styleLocations).find(() => true)
         }
         if (this.styles[styleId]) {
-            return this.styles[styleId]
+            return Promise.resolve(this.styles[styleId])
         }
-
-        const response = await fetch(styleLocations[styleId], {method: "GET"})
-        const json = await response.json()
-        this.styles[styleId] = inflateCSLObj(json)
-        return this.styles[styleId]
+        return fetch(styleLocations[styleId], {method: "GET"}).then(
+            response => response.json()
+        ).then(
+            json => {
+                this.styles[styleId] = inflateCSLObj(json)
+                console.log(this.styles[styleId], json)
+                return Promise.resolve(this.styles[styleId])
+            }
+        )
     }
 
-    async getLocale(style, lang, forceLang) {
+    getLocale(style, lang, forceLang) {
         let localeId = forceLang ? forceLang :
             style.attrs['default-locale'] ? style.attrs['default-locale'] :
             lang ? lang :
@@ -92,12 +109,16 @@ export class CSL {
         }
 
         if (this.locales[localeId]) {
-            return this.locales[localeId]
+            return Promise.resolve(this.locales[localeId])
         }
 
-        const response = await fetch(locales[localeId], {method: "GET"})
-        const json = await response.json()
-        this.locales[localeId] = inflateCSLObj(json)
-        return this.locales[localeId]
+        return fetch(locales[localeId], {method: "GET"}).then(
+            response => response.json()
+        ).then(
+            json => {
+                this.locales[localeId] = inflateCSLObj(json)
+                return Promise.resolve(this.locales[localeId])
+            }
+        )
     }
 }

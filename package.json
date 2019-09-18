@@ -5,7 +5,7 @@
   "main": "dist/cjs/index.js",
   "module": "dist/index.js",
   "scripts": {
-    "prebuild": "npm run lint && rm -rf build/ && mkdir build && npm run get_styles_commit && npm run get_styles && npm run get_locales_commit && npm run get_locales && ./convert.py && npm run get_citeproc_license",
+    "prebuild": "rm -rf build/ && mkdir build && npm run get_styles_commit && npm run get_styles && npm run get_locales_commit && npm run get_locales && ./convert.py && npm run get_citeproc_license",
     "build": "npm run rollup",
     "rollup": "rm -rf dist/ assets/ && rollup -c && mv assets dist/ && mv dist/cjs-assets dist/cjs/",
     "prepublishOnly": "npm run build",
