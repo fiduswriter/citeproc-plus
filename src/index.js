@@ -1,5 +1,3 @@
-import {styleLocations} from "../build/styles"
-import {locales} from "../build/locales"
 import {inflateCSLObj} from "./tools"
 export {styles} from "../build/styles"
 
@@ -70,7 +68,6 @@ export class CSL {
     }
 
     getStyle(styleId) {
-        console.log(styleId)
         if (typeof styleId === 'object') {
 
             /*
@@ -81,19 +78,25 @@ export class CSL {
             return Promise.resolve(styleId)
         }
 
-        if (!styleLocations[styleId]) {
-            styleId = Object.keys(styleLocations).find(() => true)
-        }
-        if (this.styles[styleId]) {
-            return Promise.resolve(this.styles[styleId])
-        }
-        return fetch(styleLocations[styleId], {method: "GET"}).then(
-            response => response.json()
-        ).then(
-            json => {
-                this.styles[styleId] = inflateCSLObj(json)
-                console.log(this.styles[styleId], json)
-                return Promise.resolve(this.styles[styleId])
+        return import("../build/styles").then(
+            ({styleLocations}) => {
+                if (!styleLocations[styleId]) {
+                    styleId = Object.keys(styleLocations).find(() => true)
+                }
+                let returnValue
+                if (this.styles[styleId]) {
+                    returnValue = Promise.resolve(this.styles[styleId])
+                } else {
+                    returnValue = fetch(styleLocations[styleId], {method: "GET"}).then(
+                        response => response.json()
+                    ).then(
+                        json => {
+                            this.styles[styleId] = inflateCSLObj(json)
+                            return Promise.resolve(this.styles[styleId])
+                        }
+                    )
+                }
+                return returnValue
             }
         )
     }
@@ -111,8 +114,9 @@ export class CSL {
         if (this.locales[localeId]) {
             return Promise.resolve(this.locales[localeId])
         }
-
-        return fetch(locales[localeId], {method: "GET"}).then(
+        return import("../build/locales").then(
+            ({locales}) => fetch(locales[localeId], {method: "GET"})
+        ).then(
             response => response.json()
         ).then(
             json => {
