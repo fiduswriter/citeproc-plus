@@ -1,4 +1,4 @@
-import {CSL, styles} from "citeproc-plus"
+import {CSL} from "citeproc-plus"
 
 // demo.js
 // for citeproc-js CSL citation formatter
@@ -16,8 +16,6 @@ for (let i=1, ilen=8;i<ilen;i++) {
     ))
 }
 
-const styleSelector = document.querySelector('#style-selector')
-styleSelector.innerHTML += Object.entries(styles).map(([key, value]) => `<option value="${key}">${value}</option>`).join('')
 
 // Initialize a system object, which contains two methods needed by the
 // engine.
@@ -80,7 +78,12 @@ function runRenderBib(idx) {
 }
 
 const csl = new CSL()
-window.csl = csl
+
+const styleSelector = document.querySelector('#style-selector')
+csl.getStyles().then(
+    styles => styleSelector.innerHTML += Object.entries(styles).map(([key, value]) => `<option value="${key}">${value}</option>`).join('')
+)
+
 let citeproc, items, citations
 Promise.all([
     Promise.all(fetchCitations).then(
