@@ -9,7 +9,9 @@ export class CSL {
     }
 
     getStyles() {
-        return import("../build/styles")
+        return import("../build/styles").then(
+            ({styles}) => styles
+        )
     }
 
     getEngine(originalSys, styleId, lang, forceLang) {
