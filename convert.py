@@ -86,7 +86,7 @@ if __name__ == "__main__":
                     js_id
                 )
                 if not id in UNLISTED_STYLES:
-                    title = walker.title.replace('"', '\\"')
+                    title = walker.title.replace('\\', '\\\\').replace('"', '\\"')
                     style_list.append([
                         title,
                         '    "{}": "{}",\n'.format(
