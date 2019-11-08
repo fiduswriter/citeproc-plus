@@ -47,7 +47,8 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-rebase": "^3.2.2",
     "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-terser": "^5.1.2"
+    "rollup-plugin-terser": "^5.1.2",
+    "updates": "^9.0.1"
   },
   "files": [
     "LICENSE",
@@ -57,8 +58,5 @@
     "dist/*",
     "locales_version.txt",
     "styles_version.txt"
-  ],
-  "dependencies": {
-    "updates": "^9.0.1"
-  }
+  ]
 }
