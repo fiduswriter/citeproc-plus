@@ -1,4 +1,8 @@
 export function inflateCSLObj(slimObj) {
+    if (slimObj.name) {
+        // already inflated
+        return slimObj
+    }
     const obj = {}
     obj.name = slimObj.n
     if (slimObj.a) {

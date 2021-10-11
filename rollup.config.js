@@ -19,7 +19,7 @@ export default [
                 'CSL.parseXml': 'parseXml'
             }),
             rebasePlugin({
-                assetFolder: '../assets' // See https://github.com/sebastian-software/rollup-plugin-rebase/issues/24
+                assetFolder: 'assets' // See https://github.com/sebastian-software/rollup-plugin-rebase/issues/24
             }),
             resolve({browser: true}),
             commonjs(),
@@ -45,7 +45,7 @@ export default [
                 'CSL.parseXml': 'parseXml'
             }),
             rebasePlugin({
-                assetFolder: '../cjs-assets' // See https://github.com/sebastian-software/rollup-plugin-rebase/issues/24
+                assetFolder: 'cjs-assets' // See https://github.com/sebastian-software/rollup-plugin-rebase/issues/24
             }),
             resolve({browser: true}),
             commonjs(),

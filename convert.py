@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from xml.dom import minidom
+from string import ascii_lowercase
 # By Johannes Wilm
 # based on https://bitbucket.org/fbennett/citeproc-js/src/default/makejson.py
 # by Frank Bennett
@@ -26,9 +27,13 @@ class XMLWalker:
         obj = {}
         obj["n"] = elem.nodeName
         if elem.attributes:
-            obj["a"] = {}
             for key in elem.attributes.keys():
-                obj["a"][key] = elem.attributes[key].value
+                if key in ["xmlns", "href"]:
+                    pass
+                else:
+                    if not "a" in obj:
+                        obj["a"] = {}
+                    obj["a"][key] = elem.attributes[key].value
         if len(elem.childNodes) > 0:
             obj["c"] = []
         for child in elem.childNodes:
@@ -61,6 +66,7 @@ if __name__ == "__main__":
         'The licenses of the individual styles are licenses as follows: \n\n'
     )
     styles_js_preamble = ''
+    styles = {}
     styles_js_body = ''
     style_list = []
     if os.path.exists(out_dir):
@@ -68,19 +74,30 @@ if __name__ == "__main__":
 
     os.makedirs(out_dir)
 
+    index = 0
     for dir in dirs:
         for file in os.listdir(os.fsencode(dir)):
             filename = os.fsdecode(file)
             if filename.endswith(".csl"):
                 id = filename[:-4]
-                js_id = id.replace('-', '_')
-                walker = XMLWalker(open(os.path.join(dir, filename)).read())
-                out_file = open(os.path.join(out_dir, id + '.csljson'), 'w')
-                json.dump(walker.output, out_file)
-                styles_js_preamble += 'import {} from "{}"\n'.format(
-                    js_id,
-                    os.path.join(out_relative_path, id + '.csljson')
+
+                index += 1
+                if index > 200:
+                    index = 1
+                js_id = (
+                    ascii_lowercase[index // 26] +
+                    ascii_lowercase[index % 26]
                 )
+                if js_id == "do":
+                    js_id = "aa"
+                walker = XMLWalker(open(os.path.join(dir, filename)).read())
+                if not js_id in styles:
+                    styles_js_preamble += 'import {} from "{}"\n'.format(
+                        js_id,
+                        os.path.join(out_relative_path, js_id + '.csljson')
+                    )
+                    styles[js_id] = {}
+                styles[js_id][id] = walker.output
                 styles_js_body += '    "{}": {},\n'.format(
                     id,
                     js_id
@@ -97,6 +114,10 @@ if __name__ == "__main__":
                 license_txt += '{}\n'.format(id)
                 license_txt += walker.license_info
                 license_txt += '\n\n---\n\n'
+    for style in styles.items():
+        id = style[0]
+        with open(os.path.join(out_dir, id + '.csljson'), 'w') as out_file:
+            json.dump(style[1], out_file)
 
     sorted_style_list = sorted(style_list, key=lambda k: k[0])
     styles_js_options = ''

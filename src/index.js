@@ -89,15 +89,17 @@ export class CSL {
                     styleId = Object.keys(styleLocations).find(() => true)
                 }
                 let returnValue
-                if (this.styles[styleId]) {
-                    returnValue = Promise.resolve(this.styles[styleId])
+                if (this.styles[styleLocations[styleId]]) {
+                    this.styles[styleLocations[styleId]][styleId] = inflateCSLObj(this.styles[styleLocations[styleId]][styleId])
+                    returnValue = Promise.resolve(this.styles[styleLocations[styleId]][styleId])
                 } else {
                     returnValue = fetch(styleLocations[styleId], {method: "GET"}).then(
                         response => response.json()
                     ).then(
                         json => {
-                            this.styles[styleId] = inflateCSLObj(json)
-                            return Promise.resolve(this.styles[styleId])
+                            this.styles[styleLocations[styleId]] = json
+                            this.styles[styleLocations[styleId]][styleId] = inflateCSLObj(this.styles[styleLocations[styleId]][styleId])
+                            return Promise.resolve(this.styles[styleLocations[styleId]][styleId])
                         }
                     )
                 }
