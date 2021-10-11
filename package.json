@@ -36,19 +36,17 @@
   },
   "homepage": "https://github.com/fiduswriter/citeproc-plus#readme",
   "devDependencies": {
-    "@babel/core": "^7.11.1",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "babel-eslint": "^10.1.0",
     "citeproc": "^2.4.13",
-    "eslint": "^7.6.0",
+    "eslint": "^8.0.0",
     "rollup": "^2.23.1",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-rebase": "^3.5.4",
     "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-terser": "^6.1.0",
-    "updates": "^10.3.3"
+    "rollup-plugin-terser": "^7.0.2",
+    "updates": "^12.2.1"
   },
   "files": [
     "LICENSE",
