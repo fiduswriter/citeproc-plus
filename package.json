@@ -5,16 +5,16 @@
   "description": "a demo using citeproc-plus",
   "main": "demo.js",
   "scripts": {
-    "build": "webpack",
+    "build": "rm -fr dist && webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Frank Bennet and Johannes Wilm",
   "license": "Mostly copied from https://github.com/Juris-M/citeproc-js/tree/master/demo",
   "dependencies": {
-    "citeproc-plus": "0.1.6",
+    "citeproc-plus": "0.2.2",
     "file-loader": "^6.0.0",
-    "updates": "^10.3.3",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "updates": "^12.2.1",
+    "webpack": "^5.58.1",
+    "webpack-cli": "^4.9.0"
   }
 }
