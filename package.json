@@ -37,7 +37,7 @@
   "homepage": "https://github.com/fiduswriter/citeproc-plus#readme",
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "citeproc": "^2.4.13",
+    "citeproc": "^2.4.59",
     "eslint": "^8.0.0",
     "rollup": "^2.23.1",
     "rollup-plugin-babel": "^4.4.0",
