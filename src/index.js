@@ -109,7 +109,7 @@ export class CSL {
     }
 
     getLocale(style, lang, forceLang) {
-        const localeId = forceLang ? forceLang :
+        let localeId = forceLang ? forceLang :
             style.attrs['default-locale'] ? style.attrs['default-locale'] :
             lang ? lang :
             'en-US'
@@ -118,7 +118,12 @@ export class CSL {
             return Promise.resolve(this.locales[localeId])
         }
         return import("../build/locales").then(
-            ({locales}) => fetch(locales[localeId], {method: "GET"})
+            ({locales}) => {
+                if (!locales[localeId]) {
+                    localeId = 'en-US'
+                }
+                return fetch(locales[localeId], {method: "GET"})
+            }
         ).then(
             response => response.json()
         ).then(
