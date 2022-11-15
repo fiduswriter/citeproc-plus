@@ -109,14 +109,10 @@ export class CSL {
     }
 
     getLocale(style, lang, forceLang) {
-        let localeId = forceLang ? forceLang :
+        const localeId = forceLang ? forceLang :
             style.attrs['default-locale'] ? style.attrs['default-locale'] :
             lang ? lang :
             'en-US'
-
-        if (!this.locales[localeId]) {
-            localeId = 'en-US'
-        }
 
         if (this.locales[localeId]) {
             return Promise.resolve(this.locales[localeId])
