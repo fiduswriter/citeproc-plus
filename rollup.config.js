@@ -1,9 +1,9 @@
-import commonjs from 'rollup-plugin-commonjs'
-import resolve from 'rollup-plugin-node-resolve'
-import babel from 'rollup-plugin-babel'
-import replace from 'rollup-plugin-replace'
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
+import babel from '@rollup/plugin-babel'
+import replace from '@rollup/plugin-replace'
 import rebasePlugin from "rollup-plugin-rebase"
-import {terser} from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 
 export default [
     {
@@ -11,6 +11,7 @@ export default [
         plugins: [
             replace({
                 delimiters: ['', ''],
+                preventAssignment: false,
                 'CSL.setupXml =': 'const unusedXml =',
                 'CSL.setupXml': 'new CSL.XmlJSON',
                 'CSL.XmlDOM =': 'let XmlDOM =',
@@ -37,6 +38,7 @@ export default [
         plugins: [
             replace({
                 delimiters: ['', ''],
+                preventAssignment: false,
                 'CSL.setupXml =': 'const unusedXml =',
                 'CSL.setupXml': 'new CSL.XmlJSON',
                 'CSL.XmlDOM =': 'let XmlDOM =',
@@ -49,7 +51,7 @@ export default [
             }),
             resolve({browser: true}),
             commonjs(),
-            babel(),
+            babel({babelHelpers: 'bundled'}),
             terser()
         ],
         output: // CJS version
