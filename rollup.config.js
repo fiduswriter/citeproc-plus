@@ -8,6 +8,7 @@ import terser from '@rollup/plugin-terser'
 export default [
     {
         input: 'src/index.js',
+        makeAbsoluteExternalsRelative: true,
         plugins: [
             replace({
                 delimiters: ['', ''],
@@ -35,6 +36,7 @@ export default [
     },
     {
         input: 'src/index.js',
+        makeAbsoluteExternalsRelative: true,
         plugins: [
             replace({
                 delimiters: ['', ''],

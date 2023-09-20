@@ -7,7 +7,7 @@ from string import ascii_lowercase
 # See license info
 # https://bitbucket.org/fbennett/citeproc-js/src/default/LICENSE
 
-UNLISTED_STYLES = ['jats'] # styles that should not appear in user facing lists of styles but that are nevertheless valid
+UNLISTED_STYLES = [] # styles that should not appear in user facing lists of styles but that are nevertheless valid
 
 
 class XMLWalker:
