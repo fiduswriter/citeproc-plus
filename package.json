@@ -1,6 +1,6 @@
 {
   "name": "citeproc-plus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Citeproc-js + citation styles bundled",
   "main": "dist/cjs/index.cjs",
   "module": "dist/index.js",
@@ -16,6 +16,14 @@
         "types": "./dist/cjs/index.d.ts",
         "default": "./dist/cjs/index.cjs"
       }
+    },
+    "./dist/index.js": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./dist/cjs/index.js": {
+      "types": "./dist/cjs/index.d.ts",
+      "default": "./dist/cjs/index.cjs"
     }
   },
   "scripts": {

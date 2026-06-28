@@ -5,6 +5,10 @@ import {decompressChunk, fetchGzJSON, inflateCSLObj} from './tools'
 export {decompressChunk, inflateCSLObj}
 export type {CompressedChunk, CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode}
 
+function isNode(): boolean {
+    return !!(globalThis as {process?: {versions?: {node?: string}}}).process?.versions?.node
+}
+
 export class CSL {
     private readonly styles: Record<string, CSLNode> = {}
     private readonly styleChunkCache = new WeakMap<object, Record<string, SlimCSLNode>>()
@@ -18,6 +22,10 @@ export class CSL {
      * Return a mapping of all bundled style IDs to their human-readable titles.
      */
     async getStyles(): Promise<Record<string, string>> {
+        if (isNode()) {
+            const {styles} = await import('../build/styles-node')
+            return styles
+        }
         const {styles} = await import('../build/styles')
         return styles
     }
@@ -99,7 +107,16 @@ export class CSL {
             return styleId
         }
 
-        const {styleLocations} = await import('../build/styles')
+        let styleLocations: Record<string, string>
+        let baseUrl: string | undefined
+        if (isNode()) {
+            const nodeStyles = await import('../build/styles-node')
+            styleLocations = nodeStyles.styleLocations
+            baseUrl = nodeStyles.baseUrl
+        } else {
+            const browserStyles = await import('../build/styles')
+            styleLocations = browserStyles.styleLocations
+        }
         let resolvedId = styleId
         if (!styleLocations[resolvedId]) {
             resolvedId = Object.keys(styleLocations)[0] ?? ''
@@ -122,10 +139,11 @@ export class CSL {
             chunk = this.styleChunkCache.get(fileOrData as object)!
         } else {
             // fileOrData is a URL string — fetch the (possibly gzip-compressed) JSON.
-            if (!this.styleUrlCache[fileOrData]) {
-                this.styleUrlCache[fileOrData] = await fetchGzJSON<Record<string, SlimCSLNode>>(fileOrData)
+            const url = baseUrl ? new URL(fileOrData, baseUrl).href : fileOrData
+            if (!this.styleUrlCache[url]) {
+                this.styleUrlCache[url] = await fetchGzJSON<Record<string, SlimCSLNode>>(url)
             }
-            chunk = this.styleUrlCache[fileOrData]
+            chunk = this.styleUrlCache[url]
         }
 
         const styleData = chunk[resolvedId]
@@ -143,7 +161,16 @@ export class CSL {
             return this.locales[localeId]
         }
 
-        const {locales} = await import('../build/locales')
+        let locales: Record<string, string>
+        let baseUrl: string | undefined
+        if (isNode()) {
+            const nodeLocales = await import('../build/locales-node')
+            locales = nodeLocales.locales
+            baseUrl = nodeLocales.baseUrl
+        } else {
+            const browserLocales = await import('../build/locales')
+            locales = browserLocales.locales
+        }
         if (!locales[localeId]) {
             localeId = 'en-US'
         }
@@ -162,10 +189,11 @@ export class CSL {
             }
             slimLocale = this.localeChunkCache.get(localeData as object)!
         } else {
-            if (!this.localeUrlCache[localeData]) {
-                this.localeUrlCache[localeData] = await fetchGzJSON<SlimCSLNode>(localeData)
+            const url = baseUrl ? new URL(localeData, baseUrl).href : localeData
+            if (!this.localeUrlCache[url]) {
+                this.localeUrlCache[url] = await fetchGzJSON<SlimCSLNode>(url)
             }
-            slimLocale = this.localeUrlCache[localeData]
+            slimLocale = this.localeUrlCache[url]
         }
 
         this.locales[localeId] = inflateCSLObj(slimLocale)

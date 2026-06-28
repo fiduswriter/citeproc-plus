@@ -34,7 +34,9 @@ async function loadUrlAsBuffer(url: string): Promise<ArrayBuffer> {
     if (url.startsWith('file:')) {
         // @ts-expect-error: Node-only fallback for file:// URLs in test environments.
         const fs = await import('node:fs/promises')
-        const buf: Uint8Array = await fs.readFile(url)
+        // @ts-expect-error: Node-only fallback for file:// URLs in test environments.
+        const {fileURLToPath} = await import('node:url')
+        const buf: Uint8Array = await fs.readFile(fileURLToPath(url))
         return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer
     }
 
