@@ -136,6 +136,14 @@ if __name__ == "__main__":
     with open('build/styles.js', 'w') as out_file:
         out_file.write(styles_js)
 
+    styles_dts = (
+        'import type {SlimCSLNode} from "../src/types/csl"\n\n' +
+        'export const styleLocations: Record<string, string | Record<string, SlimCSLNode>>\n' +
+        'export const styles: Record<string, string>\n'
+    )
+    with open('build/styles.d.ts', 'w') as out_file:
+        out_file.write(styles_dts)
+
     with open('style_licenses.txt', 'w') as out_file:
         out_file.write(license_txt)
 
@@ -183,6 +191,13 @@ if __name__ == "__main__":
     )
     with open('build/locales.js', 'w') as out_file:
         out_file.write(locales_js)
+
+    locales_dts = (
+        'import type {SlimCSLNode} from "../src/types/csl"\n\n' +
+        'export const locales: Record<string, string | SlimCSLNode>\n'
+    )
+    with open('build/locales.d.ts', 'w') as out_file:
+        out_file.write(locales_dts)
 
     with open('locale_licenses.txt', 'w') as out_file:
         out_file.write(license_txt)
