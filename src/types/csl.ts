@@ -31,3 +31,8 @@ export interface CiteprocEngine {
 export interface CSLModuleLike {
     Engine: new (sys: CslSys, style: CSLNode, lang?: string, forceLang?: string) => CiteprocEngine
 }
+
+export interface CompressedChunk {
+    /** Gzip-compressed, base64-encoded JSON payload. */
+    gz: string
+}

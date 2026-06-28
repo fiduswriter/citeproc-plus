@@ -1,12 +1,17 @@
 import type {CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode} from './types/csl'
-import {inflateCSLObj} from './tools'
+import type {CompressedChunk} from './tools'
+import {decompressChunk, inflateCSLObj} from './tools'
 
-export {inflateCSLObj}
-export type {CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode}
+export {decompressChunk, inflateCSLObj}
+export type {CompressedChunk, CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode}
 
 export class CSL {
-    private readonly styles: Record<string, CSLNode | Record<string, SlimCSLNode>> = {}
+    private readonly styles: Record<string, CSLNode> = {}
+    private readonly styleChunkCache = new WeakMap<object, Record<string, SlimCSLNode>>()
+    private readonly styleUrlCache: Record<string, Record<string, SlimCSLNode>> = {}
     private readonly locales: Record<string, CSLNode> = {}
+    private readonly localeChunkCache = new WeakMap<object, SlimCSLNode>()
+    private readonly localeUrlCache: Record<string, SlimCSLNode> = {}
     private citeproc: CSLModuleLike | null = null
 
     /**
@@ -54,10 +59,10 @@ export class CSL {
             style = styleId
         } else {
             const cached = this.styles[styleId]
-            if (!cached || !('name' in cached)) {
+            if (!cached) {
                 return false
             }
-            style = cached as CSLNode
+            style = cached
         }
 
         let localeId = forceLang ?? style.attrs['default-locale'] ?? lang ?? 'en-US'
@@ -100,33 +105,38 @@ export class CSL {
             resolvedId = Object.keys(styleLocations)[0] ?? ''
         }
 
+        if (this.styles[resolvedId]) {
+            return this.styles[resolvedId]
+        }
+
         const fileOrData = styleLocations[resolvedId]
+        let chunk: Record<string, SlimCSLNode>
         if (typeof fileOrData !== 'string') {
             // Inline bundled object — fileOrData is the style chunk keyed by styleId.
-            const styleData = fileOrData[resolvedId]
-            if (!this.styles[resolvedId]) {
-                this.styles[resolvedId] = inflateCSLObj(styleData)
+            if (!this.styleChunkCache.has(fileOrData as object)) {
+                this.styleChunkCache.set(
+                    fileOrData as object,
+                    await decompressChunk<Record<string, SlimCSLNode>>(fileOrData as SlimCSLNode | CompressedChunk)
+                )
             }
-            return this.styles[resolvedId] as CSLNode
+            chunk = this.styleChunkCache.get(fileOrData as object)!
+        } else {
+            // fileOrData is a URL string — fetch it.
+            if (!this.styleUrlCache[fileOrData]) {
+                const response = await fetch(fileOrData)
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch style from ${fileOrData}: ${response.status}`)
+                }
+                this.styleUrlCache[fileOrData] = await decompressChunk<Record<string, SlimCSLNode>>(
+                    (await response.json()) as SlimCSLNode | CompressedChunk
+                )
+            }
+            chunk = this.styleUrlCache[fileOrData]
         }
 
-        // fileOrData is a URL string — fetch it.
-        if (this.styles[fileOrData]) {
-            const fileStyles = this.styles[fileOrData] as Record<string, SlimCSLNode>
-            if (!this.styles[resolvedId]) {
-                this.styles[resolvedId] = inflateCSLObj(fileStyles[resolvedId])
-            }
-            return this.styles[resolvedId] as CSLNode
-        }
-
-        const response = await fetch(fileOrData)
-        if (!response.ok) {
-            throw new Error(`Failed to fetch style from ${fileOrData}: ${response.status}`)
-        }
-        const json = (await response.json()) as Record<string, SlimCSLNode>
-        this.styles[fileOrData] = json
-        this.styles[resolvedId] = inflateCSLObj(json[resolvedId])
-        return this.styles[resolvedId] as CSLNode
+        const styleData = chunk[resolvedId]
+        this.styles[resolvedId] = inflateCSLObj(styleData)
+        return this.styles[resolvedId]
     }
 
     /**
@@ -148,17 +158,29 @@ export class CSL {
         }
 
         const localeData = locales[localeId]
+        let slimLocale: SlimCSLNode
         if (typeof localeData !== 'string') {
-            this.locales[localeId] = inflateCSLObj(localeData)
-            return this.locales[localeId]
+            if (!this.localeChunkCache.has(localeData as object)) {
+                this.localeChunkCache.set(
+                    localeData as object,
+                    await decompressChunk(localeData as SlimCSLNode | CompressedChunk)
+                )
+            }
+            slimLocale = this.localeChunkCache.get(localeData as object)!
+        } else {
+            if (!this.localeUrlCache[localeData]) {
+                const response = await fetch(localeData)
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch locale from ${localeData}: ${response.status}`)
+                }
+                this.localeUrlCache[localeData] = await decompressChunk(
+                    (await response.json()) as SlimCSLNode | CompressedChunk
+                )
+            }
+            slimLocale = this.localeUrlCache[localeData]
         }
 
-        const response = await fetch(localeData)
-        if (!response.ok) {
-            throw new Error(`Failed to fetch locale from ${localeData}: ${response.status}`)
-        }
-        const json = (await response.json()) as SlimCSLNode
-        this.locales[localeId] = inflateCSLObj(json)
+        this.locales[localeId] = inflateCSLObj(slimLocale)
         return this.locales[localeId]
     }
 }

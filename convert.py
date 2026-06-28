@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from xml.dom import minidom
-from string import ascii_lowercase
 # By Johannes Wilm
 # based on https://bitbucket.org/fbennett/citeproc-js/src/default/makejson.py
 # by Frank Bennett
@@ -39,6 +38,9 @@ class XMLWalker:
         for child in elem.childNodes:
             if child.nodeName == "#comment":
                 pass
+            elif child.nodeName == "info":
+                # citeproc-js skips <info> entirely; keep it only for license text.
+                pass
             elif child.nodeName == "#text":
                 if (
                     len(elem.childNodes) == 1 and
@@ -55,10 +57,24 @@ if __name__ == "__main__":
     import sys
     import os
     import shutil
+    import gzip
+    import base64
 
     dirs = ['./build/styles-master/', './src/extra_styles/']
     out_dir = './build/styles/'
+
+    def write_compressed_json(data, path):
+        """Write JSON data gzip-compressed and base64-encoded into a JSON wrapper."""
+        compressed = gzip.compress(json.dumps(data, separators=(',', ':')).encode('utf-8'), compresslevel=9)
+        encoded = base64.b64encode(compressed).decode('ascii')
+        with open(path, 'w') as out_file:
+            json.dump({'gz': encoded}, out_file, separators=(',', ':'))
     out_relative_path = './styles/'
+
+    # Number of style chunks to emit. Fewer chunks give slightly better
+    # compression and fewer HTTP requests; too few means loading a lot of
+    # unused styles. 50 is a good balance for ~2800 styles.
+    CHUNK_COUNT = 25
 
     license_txt = (
         'These styles are taken from '
@@ -76,20 +92,14 @@ if __name__ == "__main__":
 
     index = 0
     for dir in dirs:
-        for file in os.listdir(os.fsencode(dir)):
-            filename = os.fsdecode(file)
+        for filename in sorted(os.listdir(dir)):
             if filename.endswith(".csl"):
                 id = filename[:-4]
 
                 index += 1
-                if index > 200:
+                if index > CHUNK_COUNT:
                     index = 1
-                js_id = (
-                    ascii_lowercase[index // 26] +
-                    ascii_lowercase[index % 26]
-                )
-                if js_id == "do":
-                    js_id = "aa"
+                js_id = 'c{:02d}'.format(index)
                 walker = XMLWalker(open(os.path.join(dir, filename)).read())
                 if not js_id in styles:
                     styles_js_preamble += 'import {} from "{}"\n'.format(
@@ -116,8 +126,7 @@ if __name__ == "__main__":
                 license_txt += '\n\n---\n\n'
     for style in styles.items():
         id = style[0]
-        with open(os.path.join(out_dir, id + '.csljson'), 'w') as out_file:
-            json.dump(style[1], out_file)
+        write_compressed_json(style[1], os.path.join(out_dir, id + '.csljson'))
 
     sorted_style_list = sorted(style_list, key=lambda k: k[0])
     styles_js_options = ''
@@ -137,8 +146,8 @@ if __name__ == "__main__":
         out_file.write(styles_js)
 
     styles_dts = (
-        'import type {SlimCSLNode} from "../src/types/csl"\n\n' +
-        'export const styleLocations: Record<string, string | Record<string, SlimCSLNode>>\n' +
+        'import type {CompressedChunk, SlimCSLNode} from "../src/types/csl"\n\n' +
+        'export const styleLocations: Record<string, string | Record<string, SlimCSLNode> | CompressedChunk>\n' +
         'export const styles: Record<string, string>\n'
     )
     with open('build/styles.d.ts', 'w') as out_file:
@@ -170,8 +179,7 @@ if __name__ == "__main__":
             id = filename[8:-4]
             js_id = id.replace('-', '_')
             walker = XMLWalker(open(os.path.join(dir, filename)).read())
-            out_file = open(os.path.join(out_dir, id + '.csljson'), 'w')
-            json.dump(walker.output, out_file)
+            write_compressed_json(walker.output, os.path.join(out_dir, id + '.csljson'))
             locales_js_preamble += 'import {} from "{}"\n'.format(
                 js_id,
                 os.path.join(out_relative_path, id + '.csljson')
@@ -193,8 +201,8 @@ if __name__ == "__main__":
         out_file.write(locales_js)
 
     locales_dts = (
-        'import type {SlimCSLNode} from "../src/types/csl"\n\n' +
-        'export const locales: Record<string, string | SlimCSLNode>\n'
+        'import type {CompressedChunk, SlimCSLNode} from "../src/types/csl"\n\n' +
+        'export const locales: Record<string, string | SlimCSLNode | CompressedChunk>\n'
     )
     with open('build/locales.d.ts', 'w') as out_file:
         out_file.write(locales_dts)
