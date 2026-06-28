@@ -96,7 +96,7 @@ export class CSL {
                     }
                     return Promise.resolve(this.styles[styleId])
                 }
-                // fileOrData is a URL string — fetch it
+                // FileOrData is a URL string — fetch it
                 let returnValue
                 if (this.styles[fileOrData]) {
                     this.styles[fileOrData][styleId] = inflateCSLObj(this.styles[fileOrData][styleId])
@@ -137,10 +137,10 @@ export class CSL {
                     this.locales[localeId] = inflateCSLObj(localeData)
                     return Promise.resolve(this.locales[localeId])
                 }
-                // localeData is a URL string — fetch it
-                return fetch(localeData, {method: "GET"})
-                    .then(response => response.json())
-                    .then(json => {
+                // LocaleData is a URL string — fetch it
+                return fetch(localeData, {method: "GET"}).
+                    then(response => response.json()).
+                    then(json => {
                         this.locales[localeId] = inflateCSLObj(json)
                         return Promise.resolve(this.locales[localeId])
                     })
