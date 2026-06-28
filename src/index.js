@@ -88,18 +88,27 @@ export class CSL {
                 if (!styleLocations[styleId]) {
                     styleId = Object.keys(styleLocations).find(() => true)
                 }
+                const fileOrData = styleLocations[styleId]
+                if (typeof fileOrData !== "string") {
+                    // Inline bundled object — fileOrData is the style file object keyed by styleId
+                    if (!this.styles[styleId]) {
+                        this.styles[styleId] = inflateCSLObj(fileOrData[styleId])
+                    }
+                    return Promise.resolve(this.styles[styleId])
+                }
+                // fileOrData is a URL string — fetch it
                 let returnValue
-                if (this.styles[styleLocations[styleId]]) {
-                    this.styles[styleLocations[styleId]][styleId] = inflateCSLObj(this.styles[styleLocations[styleId]][styleId])
-                    returnValue = Promise.resolve(this.styles[styleLocations[styleId]][styleId])
+                if (this.styles[fileOrData]) {
+                    this.styles[fileOrData][styleId] = inflateCSLObj(this.styles[fileOrData][styleId])
+                    returnValue = Promise.resolve(this.styles[fileOrData][styleId])
                 } else {
-                    returnValue = fetch(styleLocations[styleId], {method: "GET"}).then(
+                    returnValue = fetch(fileOrData, {method: "GET"}).then(
                         response => response.json()
                     ).then(
                         json => {
-                            this.styles[styleLocations[styleId]] = json
-                            this.styles[styleLocations[styleId]][styleId] = inflateCSLObj(this.styles[styleLocations[styleId]][styleId])
-                            return Promise.resolve(this.styles[styleLocations[styleId]][styleId])
+                            this.styles[fileOrData] = json
+                            this.styles[fileOrData][styleId] = inflateCSLObj(this.styles[fileOrData][styleId])
+                            return Promise.resolve(this.styles[fileOrData][styleId])
                         }
                     )
                 }
@@ -122,14 +131,19 @@ export class CSL {
                 if (!locales[localeId]) {
                     localeId = 'en-US'
                 }
-                return fetch(locales[localeId], {method: "GET"})
-            }
-        ).then(
-            response => response.json()
-        ).then(
-            json => {
-                this.locales[localeId] = inflateCSLObj(json)
-                return Promise.resolve(this.locales[localeId])
+                const localeData = locales[localeId]
+                if (typeof localeData !== "string") {
+                    // Inline bundled object — use it directly
+                    this.locales[localeId] = inflateCSLObj(localeData)
+                    return Promise.resolve(this.locales[localeId])
+                }
+                // localeData is a URL string — fetch it
+                return fetch(localeData, {method: "GET"})
+                    .then(response => response.json())
+                    .then(json => {
+                        this.locales[localeId] = inflateCSLObj(json)
+                        return Promise.resolve(this.locales[localeId])
+                    })
             }
         )
     }
