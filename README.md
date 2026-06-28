@@ -13,7 +13,10 @@ How to use
 
     npm install citeproc-plus --save
 
-2. Install a plugin for your bundler to handle resources other than JavaScript files as separate files, for example [Webpack's File Loader](https://github.com/webpack-contrib/file-loader). Configure it so that it handles files with the ending `.csljson`. In the case of Webpack's File Loader, that would be a webpack.config.js with setting such as:
+2. Configure your bundler to emit the `.json.gz` style and locale chunks as
+   static assets (most modern bundlers, including Vite, Webpack, and Rollup,
+   do this automatically for non-JavaScript imports). With Webpack's
+   `asset/resource` module type, for example:
 
 ```js
 module.exports = {
@@ -24,12 +27,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(csljson)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-          },
-        ],
+        test: /\.json\.gz$/i,
+        type: 'asset/resource',
       },
     ],
   },

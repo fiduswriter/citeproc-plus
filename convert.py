@@ -58,17 +58,15 @@ if __name__ == "__main__":
     import os
     import shutil
     import gzip
-    import base64
 
     dirs = ['./build/styles-master/', './src/extra_styles/']
     out_dir = './build/styles/'
 
-    def write_compressed_json(data, path):
-        """Write JSON data gzip-compressed and base64-encoded into a JSON wrapper."""
+    def write_compressed_gz(data, path):
+        """Write JSON data gzip-compressed to a binary .json.gz file."""
         compressed = gzip.compress(json.dumps(data, separators=(',', ':')).encode('utf-8'), compresslevel=9)
-        encoded = base64.b64encode(compressed).decode('ascii')
-        with open(path, 'w') as out_file:
-            json.dump({'gz': encoded}, out_file, separators=(',', ':'))
+        with open(path, 'wb') as out_file:
+            out_file.write(compressed)
     out_relative_path = './styles/'
 
     # Number of style chunks to emit. Fewer chunks give slightly better
@@ -82,7 +80,7 @@ if __name__ == "__main__":
         'The licenses of the individual styles are licenses as follows: \n\n'
     )
     styles_js_preamble = ''
-    styles = {}
+    style_chunks = {}
     styles_js_body = ''
     style_list = []
     if os.path.exists(out_dir):
@@ -101,13 +99,13 @@ if __name__ == "__main__":
                     index = 1
                 js_id = 'c{:02d}'.format(index)
                 walker = XMLWalker(open(os.path.join(dir, filename)).read())
-                if not js_id in styles:
+                if not js_id in style_chunks:
                     styles_js_preamble += 'import {} from "{}"\n'.format(
                         js_id,
-                        os.path.join(out_relative_path, js_id + '.csljson')
+                        os.path.join(out_relative_path, js_id + '.json.gz')
                     )
-                    styles[js_id] = {}
-                styles[js_id][id] = walker.output
+                    style_chunks[js_id] = {}
+                style_chunks[js_id][id] = walker.output
                 styles_js_body += '    "{}": {},\n'.format(
                     id,
                     js_id
@@ -124,9 +122,8 @@ if __name__ == "__main__":
                 license_txt += '{}\n'.format(id)
                 license_txt += walker.license_info
                 license_txt += '\n\n---\n\n'
-    for style in styles.items():
-        id = style[0]
-        write_compressed_json(style[1], os.path.join(out_dir, id + '.csljson'))
+    for chunk_id, chunk_data in style_chunks.items():
+        write_compressed_gz(chunk_data, os.path.join(out_dir, chunk_id + '.json.gz'))
 
     sorted_style_list = sorted(style_list, key=lambda k: k[0])
     styles_js_options = ''
@@ -146,8 +143,7 @@ if __name__ == "__main__":
         out_file.write(styles_js)
 
     styles_dts = (
-        'import type {CompressedChunk, SlimCSLNode} from "../src/types/csl"\n\n' +
-        'export const styleLocations: Record<string, string | Record<string, SlimCSLNode> | CompressedChunk>\n' +
+        'export const styleLocations: Record<string, string>\n' +
         'export const styles: Record<string, string>\n'
     )
     with open('build/styles.d.ts', 'w') as out_file:
@@ -179,10 +175,10 @@ if __name__ == "__main__":
             id = filename[8:-4]
             js_id = id.replace('-', '_')
             walker = XMLWalker(open(os.path.join(dir, filename)).read())
-            write_compressed_json(walker.output, os.path.join(out_dir, id + '.csljson'))
+            write_compressed_gz(walker.output, os.path.join(out_dir, id + '.json.gz'))
             locales_js_preamble += 'import {} from "{}"\n'.format(
                 js_id,
-                os.path.join(out_relative_path, id + '.csljson')
+                os.path.join(out_relative_path, id + '.json.gz')
             )
             locales_js_body += '    "{}": {},\n'.format(
                 id,
@@ -201,8 +197,7 @@ if __name__ == "__main__":
         out_file.write(locales_js)
 
     locales_dts = (
-        'import type {CompressedChunk, SlimCSLNode} from "../src/types/csl"\n\n' +
-        'export const locales: Record<string, string | SlimCSLNode | CompressedChunk>\n'
+        'export const locales: Record<string, string>\n'
     )
     with open('build/locales.d.ts', 'w') as out_file:
         out_file.write(locales_dts)

@@ -1,6 +1,6 @@
 import type {CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode} from './types/csl'
 import type {CompressedChunk} from './tools'
-import {decompressChunk, inflateCSLObj} from './tools'
+import {decompressChunk, fetchGzJSON, inflateCSLObj} from './tools'
 
 export {decompressChunk, inflateCSLObj}
 export type {CompressedChunk, CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode}
@@ -121,15 +121,9 @@ export class CSL {
             }
             chunk = this.styleChunkCache.get(fileOrData as object)!
         } else {
-            // fileOrData is a URL string — fetch it.
+            // fileOrData is a URL string — fetch the (possibly gzip-compressed) JSON.
             if (!this.styleUrlCache[fileOrData]) {
-                const response = await fetch(fileOrData)
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch style from ${fileOrData}: ${response.status}`)
-                }
-                this.styleUrlCache[fileOrData] = await decompressChunk<Record<string, SlimCSLNode>>(
-                    (await response.json()) as SlimCSLNode | CompressedChunk
-                )
+                this.styleUrlCache[fileOrData] = await fetchGzJSON<Record<string, SlimCSLNode>>(fileOrData)
             }
             chunk = this.styleUrlCache[fileOrData]
         }
@@ -169,13 +163,7 @@ export class CSL {
             slimLocale = this.localeChunkCache.get(localeData as object)!
         } else {
             if (!this.localeUrlCache[localeData]) {
-                const response = await fetch(localeData)
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch locale from ${localeData}: ${response.status}`)
-                }
-                this.localeUrlCache[localeData] = await decompressChunk(
-                    (await response.json()) as SlimCSLNode | CompressedChunk
-                )
+                this.localeUrlCache[localeData] = await fetchGzJSON<SlimCSLNode>(localeData)
             }
             slimLocale = this.localeUrlCache[localeData]
         }
