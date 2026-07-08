@@ -62,7 +62,8 @@ const config: RollupOptions[] = [
         output: {
             dir: 'dist',
             format: 'es',
-            sourcemap: true
+            sourcemap: true,
+            sourcemapFileNames: 'citeproc-plus-[name]-[hash].js.map'
         }
     },
     {
@@ -78,7 +79,8 @@ const config: RollupOptions[] = [
             format: 'cjs',
             entryFileNames: '[name].cjs',
             chunkFileNames: '[name]-[hash].cjs',
-            sourcemap: true
+            sourcemap: true,
+            sourcemapFileNames: 'citeproc-plus-[name]-[hash].cjs.map'
         }
     }
 ]
