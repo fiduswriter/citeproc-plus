@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest'
-import {CSL, inflateCSLObj} from '../src'
+import {CSL, createCSL, inflateCSLObj} from '../src'
 import type {CSLNode, SlimCSLNode} from '../src'
 
 describe('inflateCSLObj', () => {
@@ -61,5 +61,29 @@ describe('CSL', () => {
         const syncEngine = csl.getEngineSync(sys, 'apa', 'en-US')
         expect(syncEngine).toBeDefined()
         expect(syncEngine).not.toBe(false)
+    })
+
+    it('resolves registered styles by id', async () => {
+        const csl = new CSL()
+        const apa = await csl.getStyle('apa')
+        const other = new CSL()
+        other.registerStyle('my-custom-style', apa)
+        const resolved = await other.getStyle('my-custom-style')
+        expect(resolved).toBe(apa)
+    })
+})
+
+describe('createCSL', () => {
+    it('returns a CSL instance with registered styles', async () => {
+        const source = new CSL()
+        const apa = await source.getStyle('apa')
+        const csl = createCSL({'my-custom-style': apa})
+        expect(csl).toBeInstanceOf(CSL)
+        const resolved = await csl.getStyle('my-custom-style')
+        expect(resolved).toBe(apa)
+    })
+
+    it('returns a plain CSL instance when given no styles', () => {
+        expect(createCSL()).toBeInstanceOf(CSL)
     })
 })

@@ -105,6 +105,32 @@ There is an extra style with the styleId `jats` that can be used as part of conv
 
 If instead of the styleId you hand it a preprocessed style object it will use it as well without caching.
 
+### Registering your own styles ###
+
+If you want to use a style that is not bundled with `citeproc-plus` (for example
+one loaded from disk or fetched from your own server), register the
+preprocessed style object under an id and then reference it by that id:
+
+```js
+const csl = new CSL()
+csl.registerStyle("my-style", preprocessedStyleObject)
+
+const citeproc = await csl.getEngine(sys, "my-style", lang)
+```
+
+As a convenience, `createCSL` builds a `CSL` instance with a map of styles
+already registered:
+
+```js
+import {createCSL} from "citeproc-plus"
+
+const csl = createCSL({"my-style": preprocessedStyleObject})
+const citeproc = await csl.getEngine(sys, "my-style", lang)
+```
+
+Registered styles take precedence over the bundled catalog, and their locales
+are resolved natively in both the browser and Node.js.
+
 ### Importing CSL ###
 
 Notice that the styles in this package are not stored in the citation style language (CSL) directly. There is a tool to convert CSL to the JSON of preprocessed style object that is needed [here](https://github.com/Juris-M/citeproc-js/blob/master/tools/makejson.py).

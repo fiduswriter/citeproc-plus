@@ -1,4 +1,4 @@
-import type {CSLNode, CompressedChunk, SlimCSLNode} from './types/csl'
+import type {CSLNode, CompressedChunk, SlimCSLNode} from './types/csl.js'
 
 export type {CompressedChunk}
 

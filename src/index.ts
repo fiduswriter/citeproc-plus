@@ -1,6 +1,6 @@
-import type {CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode} from './types/csl'
-import type {CompressedChunk} from './tools'
-import {decompressChunk, fetchGzJSON, inflateCSLObj} from './tools'
+import type {CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode} from './types/csl.js'
+import type {CompressedChunk} from './tools.js'
+import {decompressChunk, fetchGzJSON, inflateCSLObj} from './tools.js'
 
 export {decompressChunk, inflateCSLObj}
 export type {CompressedChunk, CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode}
@@ -17,6 +17,19 @@ export class CSL {
     private readonly localeChunkCache = new WeakMap<object, SlimCSLNode>()
     private readonly localeUrlCache: Record<string, SlimCSLNode> = {}
     private citeproc: CSLModuleLike | null = null
+
+    /**
+     * Register a pre-resolved (inflated) style under a given id so that it can
+     * subsequently be resolved by {@link getStyle}, {@link getEngine} and
+     * {@link getEngineSync} without consulting the bundled style catalog.
+     *
+     * This is primarily useful for consumers that supply their own CSL styles
+     * (for example loaded from disk) rather than relying on the styles bundled
+     * with citeproc-plus.
+     */
+    registerStyle(id: string, style: CSLNode): void {
+        this.styles[id] = style
+    }
 
     /**
      * Return a mapping of all bundled style IDs to their human-readable titles.
@@ -105,6 +118,13 @@ export class CSL {
     async getStyle(styleId: string | CSLNode): Promise<CSLNode> {
         if (typeof styleId === 'object') {
             return styleId
+        }
+
+        // Serve previously registered or cached styles directly, bypassing the
+        // bundled style catalog. This allows consumers to register their own
+        // styles via registerStyle() under ids that are not part of the bundle.
+        if (this.styles[styleId]) {
+            return this.styles[styleId]
         }
 
         let styleLocations: Record<string, string>
@@ -199,4 +219,24 @@ export class CSL {
         this.locales[localeId] = inflateCSLObj(slimLocale)
         return this.locales[localeId]
     }
+}
+
+/**
+ * Map of citation style name to a pre-loaded, inflated CSL style node.
+ */
+export type StyleMap = Record<string, CSLNode>
+
+/**
+ * Build a {@link CSL} instance with the provided styles pre-registered.
+ *
+ * Bundled styles and locales are resolved natively by the returned instance in
+ * both the browser and Node.js, so this helper is only needed when supplying
+ * additional, caller-provided styles.
+ */
+export function createCSL(styles: StyleMap = {}): CSL {
+    const csl = new CSL()
+    for (const [name, style] of Object.entries(styles)) {
+        csl.registerStyle(name, style)
+    }
+    return csl
 }
