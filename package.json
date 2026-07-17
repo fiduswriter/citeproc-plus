@@ -60,7 +60,7 @@
   },
   "homepage": "https://github.com/fiduswriter/citeproc-plus#readme",
   "dependencies": {
-    "citeproc-ts": "file:../../../../tmp/kilo/citeproc-ts-0.2.3.tgz"
+    "citeproc-ts": "0.2.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
