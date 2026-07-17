@@ -28,7 +28,7 @@
   },
   "scripts": {
     "fetch-data": "rm -rf build/ && mkdir build && npm run get_styles_commit && npm run get_styles && npm run get_locales_commit && npm run get_locales && ./convert.py",
-    "build": "npm run lint && npm run fetch-data && npm run get_citeproc_license && npm run rollup && npm run build:types",
+    "build": "npm run lint && npm run get_citeproc_license && npm run rollup && npm run build:types",
     "rollup": "rm -rf dist/ && rollup -c",
     "build:types": "tsc -p tsconfig.build.json --emitDeclarationOnly && tsc -p tsconfig.cjs.json --emitDeclarationOnly",
     "prepublishOnly": "npm run rollup && npm run build:types",
