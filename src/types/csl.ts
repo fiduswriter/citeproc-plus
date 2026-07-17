@@ -14,6 +14,7 @@ export interface CSLNode {
     attrs: Record<string, string>
     /** Child nodes or text content. */
     children: Array<CSLNode | string>
+    [key: string]: unknown
 }
 
 export interface CompressedChunk {
