@@ -1,6 +1,6 @@
 {
   "name": "citeproc-plus",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Citeproc-js + citation styles bundled",
   "main": "dist/cjs/index.cjs",
   "module": "dist/index.js",
