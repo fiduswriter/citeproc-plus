@@ -1,9 +1,9 @@
-import type {CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode} from './types/csl.js'
+import type {CSLNode, SlimCSLNode} from './types/csl.js'
 import type {CompressedChunk} from './tools.js'
 import {decompressChunk, fetchGzJSON, inflateCSLObj} from './tools.js'
 
 export {decompressChunk, inflateCSLObj}
-export type {CompressedChunk, CSLModuleLike, CSLNode, CiteprocEngine, CslSys, SlimCSLNode}
+export type {CompressedChunk, CSLNode, SlimCSLNode}
 
 function isNode(): boolean {
     return !!(globalThis as {process?: {versions?: {node?: string}}}).process?.versions?.node
@@ -16,7 +16,14 @@ export class CSL {
     private readonly locales: Record<string, CSLNode> = {}
     private readonly localeChunkCache = new WeakMap<object, SlimCSLNode>()
     private readonly localeUrlCache: Record<string, SlimCSLNode> = {}
-    private citeproc: CSLModuleLike | null = null
+    private Engine:
+        | (new (
+              sys: Record<string, unknown>,
+              style: CSLNode | string,
+              lang?: string,
+              forceLang?: string
+          ) => Record<string, unknown>)
+        | null = null
 
     /**
      * Register a pre-resolved (inflated) style under a given id so that it can
@@ -48,17 +55,17 @@ export class CSL {
      * if they have not been loaded yet.
      */
     async getEngine(
-        originalSys: CslSys,
+        originalSys: Record<string, unknown>,
         styleId: string | CSLNode,
         lang?: string,
         forceLang?: string
-    ): Promise<CiteprocEngine> {
+    ): Promise<Record<string, unknown>> {
         await this.getCiteproc()
         const style = await this.getStyle(styleId)
         const locale = await this.getLocale(style, lang, forceLang)
         const sys = Object.assign(Object.create(originalSys), originalSys)
         sys.retrieveLocale = () => locale
-        return new this.citeproc!.Engine(sys, style, lang, forceLang)
+        return new this.Engine!(sys, style, lang, forceLang)
     }
 
     /**
@@ -66,12 +73,12 @@ export class CSL {
      * Returns `false` if the required style or locale is not cached yet.
      */
     getEngineSync(
-        originalSys: CslSys,
+        originalSys: Record<string, unknown>,
         styleId: string | CSLNode,
         lang?: string,
         forceLang?: string
-    ): CiteprocEngine | false {
-        if (!this.citeproc) {
+    ): Record<string, unknown> | false {
+        if (!this.Engine) {
             return false
         }
 
@@ -97,18 +104,18 @@ export class CSL {
 
         const sys = Object.assign(Object.create(originalSys), originalSys)
         sys.retrieveLocale = () => locale
-        return new this.citeproc.Engine(sys, style, lang, forceLang)
+        return new this.Engine(sys, style, lang, forceLang)
     }
 
     /**
      * Load the citeproc module on demand.
      */
     async getCiteproc(): Promise<void> {
-        if (this.citeproc) {
+        if (this.Engine) {
             return
         }
-        const {default: csl} = await import('citeproc')
-        this.citeproc = csl as CSLModuleLike
+        const {default: csl} = await import('citeproc-ts')
+        this.Engine = csl.Engine
     }
 
     /**

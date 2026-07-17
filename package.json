@@ -40,7 +40,7 @@
     "get_locales_commit": "wget -qO- http://api.github.com/repos/citation-style-language/locales/commits/master | jq -r '.sha' > locales_version.txt",
     "get_styles": "wget -q -O build/styles.zip https://github.com/citation-style-language/styles/archive/master.zip && bsdtar -xvf build/styles.zip -C build && rm build/styles.zip",
     "get_styles_commit": "wget -qO- http://api.github.com/repos/citation-style-language/styles/commits/master | jq -r '.sha' > styles_version.txt",
-    "get_citeproc_license": "cp node_modules/citeproc/LICENSE ./software_license.txt"
+    "get_citeproc_license": "cp node_modules/citeproc-ts/LICENSE ./software_license.txt"
   },
   "repository": {
     "type": "git",
@@ -59,15 +59,16 @@
     "url": "https://github.com/fiduswriter/citeproc-plus/issues"
   },
   "homepage": "https://github.com/fiduswriter/citeproc-plus#readme",
+  "dependencies": {
+    "citeproc-ts": "^0.2.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@rollup/plugin-commonjs": "^25.0.8",
     "@rollup/plugin-node-resolve": "^15.3.1",
-    "@rollup/plugin-replace": "^5.0.7",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
     "@vitest/coverage-v8": "^4.1.9",
-    "citeproc": "^2.4.63",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.6",

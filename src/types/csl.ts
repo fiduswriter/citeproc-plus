@@ -16,22 +16,6 @@ export interface CSLNode {
     children: Array<CSLNode | string>
 }
 
-export interface CslSys {
-    /** Required by citeproc-js to fetch citation items. */
-    retrieveItem: (id: string) => Record<string, unknown>
-    /** Provided by this package; returns the preloaded locale object. */
-    retrieveLocale?: (lang: string) => CSLNode | undefined
-    [key: string]: unknown
-}
-
-export interface CiteprocEngine {
-    [key: string]: unknown
-}
-
-export interface CSLModuleLike {
-    Engine: new (sys: CslSys, style: CSLNode, lang?: string, forceLang?: string) => CiteprocEngine
-}
-
 export interface CompressedChunk {
     /** Gzip-compressed, base64-encoded JSON payload. */
     gz: string
