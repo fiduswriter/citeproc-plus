@@ -1,6 +1,6 @@
 {
   "name": "citeproc-plus",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Citeproc-js + citation styles bundled",
   "main": "dist/cjs/index.cjs",
   "module": "dist/index.js",
@@ -27,11 +27,11 @@
     }
   },
   "scripts": {
-    "prebuild": "npm run lint && rm -rf build/ && mkdir build && npm run get_styles_commit && npm run get_styles && npm run get_locales_commit && npm run get_locales && ./convert.py && npm run get_citeproc_license",
-    "build": "npm run rollup && npm run build:types",
+    "fetch-data": "rm -rf build/ && mkdir build && npm run get_styles_commit && npm run get_styles && npm run get_locales_commit && npm run get_locales && ./convert.py",
+    "build": "npm run lint && npm run fetch-data && npm run get_citeproc_license && npm run rollup && npm run build:types",
     "rollup": "rm -rf dist/ && rollup -c",
     "build:types": "tsc -p tsconfig.build.json --emitDeclarationOnly && tsc -p tsconfig.cjs.json --emitDeclarationOnly",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run rollup && npm run build:types",
     "prepare": "npm run build",
     "lint": "eslint src rollup.config.ts test",
     "test": "vitest run",
@@ -60,7 +60,7 @@
   },
   "homepage": "https://github.com/fiduswriter/citeproc-plus#readme",
   "dependencies": {
-    "citeproc-ts": "^0.2.0"
+    "citeproc-ts": "file:../../../../tmp/kilo/citeproc-ts-0.2.3.tgz"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

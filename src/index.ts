@@ -114,7 +114,7 @@ export class CSL {
         if (this.Engine) {
             return
         }
-        const {default: csl} = await import('citeproc-ts')
+        const {CSL: csl} = await import('citeproc-ts/core')
         this.Engine = csl.Engine
     }
 

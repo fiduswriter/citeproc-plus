@@ -1,4 +1,4 @@
-declare module 'citeproc-ts' {
+declare module 'citeproc-ts/core' {
     export interface CSLModule {
         Engine: new (
             sys: Record<string, unknown>,
@@ -6,11 +6,10 @@ declare module 'citeproc-ts' {
             lang?: string,
             forceLang?: string
         ) => Record<string, unknown>
-        Output?: {Formats?: Record<string, unknown>}
-        getSortKeys?: (...args: unknown[]) => unknown
-        Registry?: new (...args: unknown[]) => unknown
+        XmlJSON?: new (data: Record<string, unknown>) => Record<string, unknown>
+        internals?: Record<string, unknown>
     }
 
-    const CSL: CSLModule
+    export const CSL: CSLModule
     export default CSL
 }
